@@ -1,13 +1,25 @@
 Package: DiscreteFWER
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
-Version: 1.0
+Title: FWER-Based Multiple Testing Procedures with Adaptation for Discrete Tests
+Version: 0.0.0-241028
 Date: 2024-10-28
-Author: Your Name
-Maintainer: Your Name <your@email.com>
+Authors@R: c(
+    person("Sebastian", "Döhler", role = c("aut", "ctb"),
+           email = "sebastian.doehler@h-da.de",
+           comment = c(ORCID = "0000-0002-0321-6355")),
+    person("Florian", "Junge", role = c("aut", "ctb", "cre"), 
+           email = "diso.fbmn@h-da.de",
+           comment = c(ORCID = "0009-0001-6856-6938"))
+  )
 Description: One paragraph description of what the package does as one or more full sentences.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.13)
+Language: en-GB
+Encoding: UTF-8
+Depends: R (>= 4.0)
+Imports: Rcpp (>= 1.0.13), DiscreteTests (>= 0.2.1), lifecycle, checkmate
 LinkingTo: Rcpp
+Suggests: DiscreteDatasets
 URL: https://github.com/DISOhda/DiscreteFWER
 BugReports: https://github.com/DISOhda/DiscreteFWER/issues
+RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE)
