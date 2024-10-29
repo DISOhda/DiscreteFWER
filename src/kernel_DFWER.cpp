@@ -61,7 +61,7 @@ List kernel_DFWER_single_crit(const List &pCDFlist, const NumericVector &support
   for(int i = 0; i < numCDF; i++) sfuns[i] = as<NumericVector>(pCDFlist[i]);
   
   // transform support with fast kernel
-  NumericVector support_transf = kernel_DFWER_fast(pCDFlist, support, independent, CDFcounts);
+  NumericVector support_transf = kernel_DFWER_single_fast(pCDFlist, support, independent, CDFcounts);
   
   // number of all attainable p-values in the support
   int numValues = support.length();
