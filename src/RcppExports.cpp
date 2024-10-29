@@ -10,6 +10,36 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// kernel_DFWER_single_fast
+NumericVector kernel_DFWER_single_fast(const List& pCDFlist, const NumericVector& pvalues, const bool independent, const Nullable<NumericVector>& pCDFcounts);
+RcppExport SEXP _DiscreteFWER_kernel_DFWER_single_fast(SEXP pCDFlistSEXP, SEXP pvaluesSEXP, SEXP independentSEXP, SEXP pCDFcountsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type pCDFlist(pCDFlistSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type pvalues(pvaluesSEXP);
+    Rcpp::traits::input_parameter< const bool >::type independent(independentSEXP);
+    Rcpp::traits::input_parameter< const Nullable<NumericVector>& >::type pCDFcounts(pCDFcountsSEXP);
+    rcpp_result_gen = Rcpp::wrap(kernel_DFWER_single_fast(pCDFlist, pvalues, independent, pCDFcounts));
+    return rcpp_result_gen;
+END_RCPP
+}
+// kernel_DFWER_single_crit
+List kernel_DFWER_single_crit(const List& pCDFlist, const NumericVector& support, const NumericVector& sorted_pv, const double alpha, const bool independent, const Nullable<NumericVector>& pCDFcounts);
+RcppExport SEXP _DiscreteFWER_kernel_DFWER_single_crit(SEXP pCDFlistSEXP, SEXP supportSEXP, SEXP sorted_pvSEXP, SEXP alphaSEXP, SEXP independentSEXP, SEXP pCDFcountsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const List& >::type pCDFlist(pCDFlistSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type support(supportSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type sorted_pv(sorted_pvSEXP);
+    Rcpp::traits::input_parameter< const double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< const bool >::type independent(independentSEXP);
+    Rcpp::traits::input_parameter< const Nullable<NumericVector>& >::type pCDFcounts(pCDFcountsSEXP);
+    rcpp_result_gen = Rcpp::wrap(kernel_DFWER_single_crit(pCDFlist, support, sorted_pv, alpha, independent, pCDFcounts));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_hello_world
 List rcpp_hello_world();
 RcppExport SEXP _DiscreteFWER_rcpp_hello_world() {
@@ -22,6 +52,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_DiscreteFWER_kernel_DFWER_single_fast", (DL_FUNC) &_DiscreteFWER_kernel_DFWER_single_fast, 4},
+    {"_DiscreteFWER_kernel_DFWER_single_crit", (DL_FUNC) &_DiscreteFWER_kernel_DFWER_single_crit, 6},
     {"_DiscreteFWER_rcpp_hello_world", (DL_FUNC) &_DiscreteFWER_rcpp_hello_world, 0},
     {NULL, NULL, 0}
 };
