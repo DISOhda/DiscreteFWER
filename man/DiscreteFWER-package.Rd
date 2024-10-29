@@ -6,8 +6,8 @@
 \alias{DiscreteFWER-package}
 \title{FWER-Based Multiple Testing Procedures with Adaptation for Discrete Tests}
 \description{
-This package implements the [d-Bonf], [sd-d-Bonf], [d-Ind], and
-simulation-based procedures for discrete tests (see References).
+This package implements the [d-Bonf], [sd-d-Bonf] and [d-Ind]
+procedures for discrete tests (see References).
 }
 \details{
 Yet to come.
