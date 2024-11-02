@@ -4,6 +4,8 @@
 \alias{kernel}
 \alias{kernel_DFWER_single_fast}
 \alias{kernel_DFWER_single_crit}
+\alias{kernel_DFWER_sd_fast}
+\alias{kernel_DFWER_sd_crit}
 \title{Kernel Functions}
 \usage{
 kernel_DFWER_single_fast(
@@ -20,6 +22,22 @@ kernel_DFWER_single_crit(
   alpha = 0.05,
   independent = FALSE,
   pCDFcounts = NULL
+)
+
+kernel_DFWER_sd_fast(
+  pCDFlist,
+  sorted_pv,
+  independent = FALSE,
+  pCDFindices = NULL
+)
+
+kernel_DFWER_sd_crit(
+  pCDFlist,
+  support,
+  sorted_pv,
+  alpha = 0.05,
+  independent = FALSE,
+  pCDFindices = NULL
 )
 }
 \arguments{

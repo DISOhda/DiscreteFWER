@@ -82,6 +82,16 @@ kernel_DFWER_single_crit <- function(pCDFlist, support, sorted_pv, alpha = 0.05,
     .Call('_DiscreteFWER_kernel_DFWER_single_crit', PACKAGE = 'DiscreteFWER', pCDFlist, support, sorted_pv, alpha, independent, pCDFcounts)
 }
 
+#' @rdname kernel
+kernel_DFWER_sd_fast <- function(pCDFlist, sorted_pv, independent = FALSE, pCDFindices = NULL) {
+    .Call('_DiscreteFWER_kernel_DFWER_sd_fast', PACKAGE = 'DiscreteFWER', pCDFlist, sorted_pv, independent, pCDFindices)
+}
+
+#' @rdname kernel
+kernel_DFWER_sd_crit <- function(pCDFlist, support, sorted_pv, alpha = 0.05, independent = FALSE, pCDFindices = NULL) {
+    .Call('_DiscreteFWER_kernel_DFWER_sd_crit', PACKAGE = 'DiscreteFWER', pCDFlist, support, sorted_pv, alpha, independent, pCDFindices)
+}
+
 rcpp_hello_world <- function() {
     .Call('_DiscreteFWER_rcpp_hello_world', PACKAGE = 'DiscreteFWER')
 }

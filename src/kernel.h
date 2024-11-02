@@ -79,3 +79,13 @@ NumericVector kernel_DFWER_single_fast(const List &pCDFlist, const NumericVector
 //' @rdname kernel
 // [[Rcpp::export]]
 List kernel_DFWER_single_crit(const List &pCDFlist, const NumericVector &support, const NumericVector &sorted_pv, const double alpha = 0.05, const bool independent = false, const Nullable<NumericVector> &pCDFcounts = R_NilValue);
+
+///' @export
+//' @rdname kernel
+// [[Rcpp::export]]
+NumericVector kernel_DFWER_sd_fast(const List &pCDFlist, const NumericVector &sorted_pv, const bool independent = false, const Nullable<List> &pCDFindices = R_NilValue);
+
+///' @export
+//' @rdname kernel
+// [[Rcpp::export]]
+List kernel_DFWER_sd_crit(const List &pCDFlist, const NumericVector &support, const NumericVector &sorted_pv, const double alpha = 0.05, const bool independent = false, const Nullable<List> &pCDFindices = R_NilValue);
