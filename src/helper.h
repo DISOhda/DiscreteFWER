@@ -1,13 +1,21 @@
-#include <RcppArmadillo.h>
+#include <Rcpp.h>
 using namespace Rcpp;
 
-inline void eval_pv(double& eval, double val, const NumericVector& vec, int len, int& pos){
+inline double eval_pv(double val, const NumericVector& vec, int len, int& pos){
   //if(val < 1){
     while(pos < len && vec[pos] <= 1 && vec[pos] <= val) pos++;
-    if(pos) eval = vec[pos - 1];
-    else eval = 0;
+    if(pos) return vec[pos - 1];
+    else return 0;
   //} else eval = 1;
 }
+
+/*inline double eval_pv_rev(double &eval, double val, const NumericVector &vec, int &pos){
+  //if(val < 1){
+  while(pos > 0 && (vec[pos] > val || vec[pos] > 1)) pos--;
+  if(vec[pos] <= val) return vec[pos];
+  else return 0;
+  //} else eval = 1;
+}*/
 
 // computes the index of the largest element of a vector which is <= a given value
 inline int binary_search(const NumericVector &vec, const double value, const int len) {
@@ -39,12 +47,7 @@ inline int binary_search(const NumericVector &vec, const double value, const int
 }
 
 // sort order
-IntegerVector order(const NumericVector &x, bool descending = false) {
-  arma::vec y = as<arma::vec>(x);
-  IntegerVector ord = as<IntegerVector>(wrap(arma::sort_index(y)));
-  
-  if(descending)
-    return rev(ord);
-  else
-    return ord;
-}
+//IntegerVector order(const NumericVector &x, bool descending = false);
+
+// function that binds two vectors, sorts it and eliminates duplications 
+NumericVector sort_combine(const NumericVector &x, const NumericVector &y);
