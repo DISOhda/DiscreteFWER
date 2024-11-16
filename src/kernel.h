@@ -35,6 +35,14 @@
 //'                      the raw p-values.
 //' @param alpha         single real number strictly between 0 and 1 indicating
 //'                      the target FWER level.
+//' @param pCDFindices   list of integer vectors containing the indices that
+//'                      indicate to which raw \eqn{p}-value in `sorted_pv` each
+//'                      item in `pCDFlist` belongs, and must have the same
+//'                      length as `pCDFlist`; if `NULL` (the default), it is
+//'                      assumed that the first item of `pCDFlist` corresponds
+//'                      to the first \eqn{p}-value, the second item to the
+//'                      second \eqn{p}-value etc. in which case the lengths of
+//'                      `pCDFlist` and `sorted_pv` must be equal.
 //' 
 //' @return
 //' For `kernel_DFWER_fast()` a vector of transformed p-values is returned.

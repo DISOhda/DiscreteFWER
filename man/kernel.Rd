@@ -65,6 +65,15 @@ the raw p-values.}
 
 \item{alpha}{single real number strictly between 0 and 1 indicating
 the target FWER level.}
+
+\item{pCDFindices}{list of integer vectors containing the indices that
+indicate to which raw \eqn{p}-value in \code{sorted_pv} each
+item in \code{pCDFlist} belongs, and must have the same
+length as \code{pCDFlist}; if \code{NULL} (the default), it is
+assumed that the first item of \code{pCDFlist} corresponds
+to the first \eqn{p}-value, the second item to the
+second \eqn{p}-value etc. in which case the lengths of
+\code{pCDFlist} and \code{sorted_pv} must be equal.}
 }
 \value{
 For \code{kernel_DFWER_fast()} a vector of transformed p-values is returned.
