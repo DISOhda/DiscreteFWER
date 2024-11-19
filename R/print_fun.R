@@ -17,9 +17,9 @@
 #' @template example
 #' @examples
 #' # d-Holm with critical values; using test results object
-#' DHolm_crit <- DHolm(test.results, critical.values = TRUE)
+#' DHolm_crit <- DHolm(test_results, critical.values = TRUE)
 #' # print results
-#' print(DHolm_rit)
+#' print(DHolm_crit)
 #' 
 #' @method print DiscreteFWER
 #' @importFrom stats p.adjust
@@ -39,8 +39,13 @@ print.DiscreteFWER <- function(x, ...){
   k <- x$Num_rejected
   
   if(x$Data$Independence) {
-    k_orig <- sum(x$Data$Raw_pvalues <= 1 - exp(log(1 - x$Data$FWER_level)/n))
-    orig <- "Šidák"
+    if(x$Data$Single_step) {
+      k_orig <- sum(x$Data$Raw_pvalues <= 1 - exp(log(1 - x$Data$FWER_level)/n))
+      orig <- "Šidák"
+    } else {
+      k_orig <- sum(p.adjust(x$Data$Raw_pvalues, "hochberg") <= x$Data$FWER_level)
+      orig <- "Hochberg"
+    }
   } else if(x$Data$Single_step) {
     k_orig <- sum(p.adjust(x$Data$Raw_pvalues, "bonferroni") <= x$Data$FWER_level)
     orig <- "Bonferroni"

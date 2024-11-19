@@ -36,8 +36,8 @@ raw_pvalues <- test_results$get_pvalues()
 pCDFlist <- test_results$get_pvalue_supports()
 
 # d-Holm with critical values; using test results object
-DHolm_crit <- DHolm(test.results, critical.values = TRUE)
+DHolm_crit <- DHolm(test_results, critical.values = TRUE)
 # print results
-print(DHolm_rit)
+print(DHolm_crit)
 
 }
