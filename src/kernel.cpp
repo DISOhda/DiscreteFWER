@@ -101,10 +101,10 @@ List kernel_DFWER_single_crit(
   delete[] sfuns;
   
   // return critical values and transformed sorted p-values
-  return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
+  return List::create(Named("crit.consts") = crit, Named("pval.transf") = pval_transf);
 }
 
-NumericVector kernel_DFWER_sd_fast(
+NumericVector kernel_DFWER_multi_fast(
   const List &pCDFlist,
   const NumericVector &sorted_pv,
   const bool independent,
@@ -171,7 +171,7 @@ NumericVector kernel_DFWER_sd_fast(
   return pval_transf;
 }
 
-List kernel_DFWER_sd_crit(
+List kernel_DFWER_multi_crit(
     const List &pCDFlist,
     const NumericVector &support,
     const NumericVector &sorted_pv,
@@ -352,10 +352,9 @@ List kernel_DFWER_sd_crit(
         idx_transf--;
       
       // save critical values and transform p-values
-      for(int i = idx_crit; i >= idx_crit - count_pv + 1; i--) {
+      for(int i = idx_crit - count_pv + 1; i <= idx_crit; i++) {
         // critical values
         crit[i] = pv_list[idx_pval];
-        //Rcout << i << ": " << crit[i] << "\n";
         // transform p-value
         if(pv_list[idx_transf] == sorted_pv[idx_crit]) 
           pval_transf[i] = independent
@@ -376,11 +375,11 @@ List kernel_DFWER_sd_crit(
   delete[] sfuns;
   
   // output results
-  return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
+  return List::create(Named("crit.consts") = crit, Named("pval.transf") = pval_transf);
 }
 
 // [[Rcpp::export]]
-List kernel_DFWER_sd_crit2(
+List kernel_DFWER_multi_crit2(
     const List &pCDFlist,
     const NumericVector &support,
     const NumericVector &sorted_pv,
@@ -606,5 +605,5 @@ List kernel_DFWER_sd_crit2(
   delete[] sfuns;
   
   // output results
-  return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
+  return List::create(Named("crit.consts") = crit, Named("pval.transf") = pval_transf);
 }
