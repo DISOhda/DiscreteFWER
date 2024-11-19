@@ -11,7 +11,7 @@
 #' @templateVar test_results TRUE
 #' @templateVar pCDFlist TRUE
 #' @templateVar alpha TRUE
-#' @templateVar stepdown TRUE
+#' @templateVar single_step TRUE
 #' @templateVar critical_values TRUE
 #' @templateVar select_threshold TRUE
 #' @templateVar pCDFlist_indices TRUE
@@ -33,19 +33,19 @@
 #' @template example
 #' @examples
 #' # d-Ind without critical values; using extracted p-values and supports
-#' DInd_fast <- DInd(raw_pvalues, pCDFlist)
+#' DInd_fast <- DInd(raw_pvalues, pCDFlist, single_step = TRUE)
 #' summary(DInd_fast)
 #' 
 #' # d-Ind with critical values; using test results object
-#' DInd_crit <- DInd(test_results, critical_values = TRUE)
+#' DInd_crit <- DInd(test_results, single_step = TRUE, critical_values = TRUE)
 #' summary(DInd_crit)
 #'  
 #' # d-Ind (step-down) without critical values; using test results object
-#' DInd_sd_fast <- DInd(test_results, stepdown = TRUE)
+#' DInd_sd_fast <- DInd(test_results)
 #' summary(DInd_sd_fast)
 #' 
 #' # d-Ind (step-down) with critical values; using extracted p-values and supports
-#' DInd_sd_crit <- DInd(raw_pvalues, pCDFlist, stepdown = TRUE, critical_values = TRUE)
+#' DInd_sd_crit <- DInd(raw_pvalues, pCDFlist, critical_values = TRUE)
 #' summary(DInd_sd_crit)
 #' 
 #' @export
@@ -57,7 +57,7 @@ DInd.default <- function(
     test_results,
     pCDFlist,
     alpha            = 0.05,
-    stepdown         = FALSE,
+    single_step      = FALSE,
     critical_values  = FALSE,
     select_threshold = 1,
     pCDFlist_indices = NULL,
@@ -68,7 +68,7 @@ DInd.default <- function(
     pCDFlist         = pCDFlist,
     alpha            = alpha,
     independence     = TRUE,
-    stepdown         = stepdown,
+    single_step      = single_step,
     critical_values  = critical_values,
     select_threshold = select_threshold,
     pCDFlist_indices = pCDFlist_indices,
@@ -89,7 +89,7 @@ DInd.default <- function(
 DInd.DiscreteTestResults <- function(
     test_results,
     alpha            = 0.05,
-    stepdown         = FALSE,
+    single_step      = FALSE,
     critical_values  = FALSE,
     select_threshold = 1,
     ...
@@ -98,7 +98,7 @@ DInd.DiscreteTestResults <- function(
     test_results     = test_results,
     alpha            = alpha,
     independence     = TRUE,
-    stepdown         = stepdown,
+    single_step      = single_step,
     critical_values  = critical_values,
     select_threshold = select_threshold,
     ...

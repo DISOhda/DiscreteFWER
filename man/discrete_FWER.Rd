@@ -13,7 +13,7 @@ discrete_FWER(test_results, ...)
   pCDFlist,
   alpha = 0.05,
   independence = FALSE,
-  stepdown = TRUE,
+  single_step = FALSE,
   critical_values = FALSE,
   select_threshold = 1,
   pCDFlist_indices = NULL,
@@ -24,7 +24,7 @@ discrete_FWER(test_results, ...)
   test_results,
   alpha = 0.05,
   independence = FALSE,
-  stepdown = TRUE,
+  single_step = FALSE,
   critical_values = FALSE,
   select_threshold = 1,
   ...
@@ -39,7 +39,7 @@ discrete_FWER(test_results, ...)
 
 \item{alpha}{single real number strictly between 0 and 1 indicating the target FWER level.}
 
-\item{stepdown}{single boolean specifying whether to perform a step-down (\code{TRUE}; the default) or single-step (\code{FALSE}) procedure.}
+\item{single_step}{single boolean specifying whether to perform a single-step (\code{TRUE}) or step-down (\code{FALSE}; the default) procedure.}
 
 \item{critical_values}{single boolean specifying whether critical constants are to be computed.}
 
@@ -60,7 +60,7 @@ A \code{DiscreteFWER} S3 class object whose elements are:
 \item{Data$pCDFlist}{list of the \eqn{p}-value supports.}
 \item{Data$FWER_level}{FWER level \code{alpha}.}
 \item{Data$Independence}{boolean indicating whether the \eqn{p}-values were considered as independent.}
-\item{Data$Stepdown}{boolean indicating whether a step-down or single-step procedure was performed.}
+\item{Data$Single_step}{boolean indicating whether a single-step or step-down procedure was performed.}
 \item{Data$Data_name}{the respective variable names of the input data.}
 \item{Select}{list with data related to \eqn{p}-value selection; only exists if \code{select_threshold < 1}.}
 \item{Select$Threshold}{\eqn{p}-value selection threshold (\code{select_threshold}).}
@@ -107,19 +107,19 @@ DFWER_dep_sd_crit <- discrete_FWER(raw_pvalues, pCDFlist, critical_values = TRUE
 summary(DFWER_dep_sd_crit)
 
 # Discrete Bonferroni procedure without critical values; using extracted p-values and supports
-DFWER_dep_fast <- discrete_FWER(raw_pvalues, pCDFlist, stepdown = FALSE)
+DFWER_dep_fast <- discrete_FWER(raw_pvalues, pCDFlist, single_step = TRUE)
 summary(DFWER_dep_fast)
 
 # Discrete Bonferroni procedure with critical values; using test results object
-DFWER_dep_crit <- discrete_FWER(test_results, stepdown = FALSE, critical_values = TRUE)
+DFWER_dep_crit <- discrete_FWER(test_results, single_step = TRUE, critical_values = TRUE)
 summary(DFWER_dep_crit)
 
 # Discrete Šidák procedure without critical values; using extracted p-values and supports
-DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE, stepdown = FALSE)
+DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE, single_step = TRUE)
 summary(DFWER_ind_fast)
 
 # Discrete Šidák procedure with critical values; using test results object
-DFWER_ind_crit <- discrete_FWER(test_results, independence = TRUE, stepdown = FALSE, 
+DFWER_ind_crit <- discrete_FWER(test_results, independence = TRUE, single_step = TRUE, 
                                 critical_values = TRUE)
 summary(DFWER_ind_crit)
 

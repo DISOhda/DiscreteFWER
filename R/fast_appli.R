@@ -13,7 +13,7 @@
 #' @templateVar test_args TRUE
 #' @templateVar alpha TRUE
 #' @templateVar independence TRUE
-#' @templateVar stepdown TRUE
+#' @templateVar single_step TRUE
 #' @templateVar critical_values TRUE
 #' @templateVar select_threshold TRUE
 #' @templateVar preprocess_fun TRUE
@@ -25,13 +25,14 @@
 #' DBonf <- direct_discrete_FWER(df, "fisher")
 #' summary(DBonf)
 #' 
-#' DHolm <- direct_discrete_FWER(df, "fisher_test_pv", stepdown = TRUE)
+#' DHolm <- direct_discrete_FWER(df, "fisher_test_pv", single_step = FALSE)
 #' summary(DHolm)
 #' 
 #' DBonf_bin <- direct_discrete_FWER(X1 + X2, "binom_test_pv", list(n = N1 + N2, p = 0.05))
 #' summary(DBonf_bin)
 #' 
-#' DHolm_bin <- direct_discrete_FWER(X1 + X2, "binom", list(n = N1 + N2, p = 0.05), stepdown = TRUE)
+#' DHolm_bin <- direct_discrete_FWER(X1 + X2, "binom", list(n = N1 + N2, p = 0.05),
+#'                                   single_step = TRUE)
 #' summary(DHolm_bin)
 #' 
 #' @export
@@ -42,7 +43,7 @@ direct_discrete_FWER <- function(
   test_args        = NULL,
   alpha            = 0.05, 
   independence     = FALSE,
-  stepdown         = FALSE,
+  single_step      = TRUE,
   critical_values  = FALSE,
   select_threshold = 1,
   preprocess_fun   = NULL, 
@@ -58,7 +59,7 @@ direct_discrete_FWER <- function(
     ),
     alpha            = alpha,
     independence     = independence,
-    stepdown         = stepdown,
+    single_step      = single_step,
     critical_values  = critical_values,
     select_threshold = select_threshold
   )

@@ -10,7 +10,7 @@ direct_discrete_FWER(
   test_args = NULL,
   alpha = 0.05,
   independence = FALSE,
-  stepdown = FALSE,
+  single_step = TRUE,
   critical_values = FALSE,
   select_threshold = 1,
   preprocess_fun = NULL,
@@ -26,7 +26,7 @@ direct_discrete_FWER(
 
 \item{alpha}{single real number strictly between 0 and 1 indicating the target FWER level.}
 
-\item{stepdown}{single boolean specifying whether to perform a step-down (\code{TRUE}; the default) or single-step (\code{FALSE}) procedure.}
+\item{single_step}{single boolean specifying whether to perform a single-step (\code{TRUE}) or step-down (\code{FALSE}; the default) procedure.}
 
 \item{critical_values}{single boolean specifying whether critical constants are to be computed.}
 
@@ -62,13 +62,14 @@ pCDFlist <- test_results$get_pvalue_supports()
 DBonf <- direct_discrete_FWER(df, "fisher")
 summary(DBonf)
 
-DHolm <- direct_discrete_FWER(df, "fisher_test_pv", stepdown = TRUE)
+DHolm <- direct_discrete_FWER(df, "fisher_test_pv", single_step = FALSE)
 summary(DHolm)
 
 DBonf_bin <- direct_discrete_FWER(X1 + X2, "binom_test_pv", list(n = N1 + N2, p = 0.05))
 summary(DBonf_bin)
 
-DHolm_bin <- direct_discrete_FWER(X1 + X2, "binom", list(n = N1 + N2, p = 0.05), stepdown = TRUE)
+DHolm_bin <- direct_discrete_FWER(X1 + X2, "binom", list(n = N1 + N2, p = 0.05),
+                                  single_step = TRUE)
 summary(DHolm_bin)
 
 }

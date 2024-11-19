@@ -41,12 +41,12 @@ print.DiscreteFWER <- function(x, ...){
   if(x$Data$Independence) {
     k_orig <- sum(x$Data$Raw_pvalues <= 1 - exp(log(1 - x$Data$FWER_level)/n))
     orig <- "Šidák"
-  } else if(x$Data$Stepdown) {
-    k_orig <- sum(p.adjust(x$Data$Raw_pvalues, "holm") <= x$Data$FWER_level)
-    orig <- "Holm"
-  } else {
+  } else if(x$Data$Single_step) {
     k_orig <- sum(p.adjust(x$Data$Raw_pvalues, "bonferroni") <= x$Data$FWER_level)
     orig <- "Bonferroni"
+  } else {
+    k_orig <- sum(p.adjust(x$Data$Raw_pvalues, "holm") <= x$Data$FWER_level)
+    orig <- "Holm"
   }
   
   # print title (i.e. algorithm)

@@ -6,7 +6,8 @@
 #' @description 
 #' `DHolm()` is a wrapper function of [`discrete_FWER()`] for computing the
 #' discrete Holm procedure. It simply passes its arguments to
-#' [`discrete_FWER()`] with fixed `independence = FALSE` and `stepdown = TRUE`.
+#' [`discrete_FWER()`] with fixed `independence = FALSE` and
+#' `single_step = FALSE`.
 #' 
 #' @templateVar test_results TRUE
 #' @templateVar pCDFlist TRUE
@@ -62,7 +63,7 @@ DHolm.default <- function(
     pCDFlist         = pCDFlist,
     alpha            = alpha,
     independence     = FALSE,
-    stepdown         = TRUE,
+    single_step      = FALSE,
     critical_values  = critical_values,
     select_threshold = select_threshold,
     pCDFlist_indices = pCDFlist_indices,
@@ -91,7 +92,7 @@ DHolm.DiscreteTestResults <- function(
     test_results     = test_results,
     alpha            = alpha,
     independence     = FALSE,
-    stepdown         = TRUE,
+    single_step      = FALSE,
     critical_values  = critical_values,
     select_threshold = select_threshold,
     ...

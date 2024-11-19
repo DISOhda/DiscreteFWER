@@ -12,7 +12,7 @@ DInd(test_results, ...)
   test_results,
   pCDFlist,
   alpha = 0.05,
-  stepdown = FALSE,
+  single_step = FALSE,
   critical_values = FALSE,
   select_threshold = 1,
   pCDFlist_indices = NULL,
@@ -22,7 +22,7 @@ DInd(test_results, ...)
 \method{DInd}{DiscreteTestResults}(
   test_results,
   alpha = 0.05,
-  stepdown = FALSE,
+  single_step = FALSE,
   critical_values = FALSE,
   select_threshold = 1,
   ...
@@ -37,7 +37,7 @@ DInd(test_results, ...)
 
 \item{alpha}{single real number strictly between 0 and 1 indicating the target FWER level.}
 
-\item{stepdown}{single boolean specifying whether to perform a step-down (\code{TRUE}; the default) or single-step (\code{FALSE}) procedure.}
+\item{single_step}{single boolean specifying whether to perform a single-step (\code{TRUE}) or step-down (\code{FALSE}; the default) procedure.}
 
 \item{critical_values}{single boolean specifying whether critical constants are to be computed.}
 
@@ -58,7 +58,7 @@ A \code{DiscreteFWER} S3 class object whose elements are:
 \item{Data$pCDFlist}{list of the \eqn{p}-value supports.}
 \item{Data$FWER_level}{FWER level \code{alpha}.}
 \item{Data$Independence}{boolean indicating whether the \eqn{p}-values were considered as independent.}
-\item{Data$Stepdown}{boolean indicating whether a step-down or single-step procedure was performed.}
+\item{Data$Single_step}{boolean indicating whether a single-step or step-down procedure was performed.}
 \item{Data$Data_name}{the respective variable names of the input data.}
 \item{Select}{list with data related to \eqn{p}-value selection; only exists if \code{select_threshold < 1}.}
 \item{Select$Threshold}{\eqn{p}-value selection threshold (\code{select_threshold}).}
@@ -98,19 +98,19 @@ raw_pvalues <- test_results$get_pvalues()
 pCDFlist <- test_results$get_pvalue_supports()
 
 # d-Ind without critical values; using extracted p-values and supports
-DInd_fast <- DInd(raw_pvalues, pCDFlist)
+DInd_fast <- DInd(raw_pvalues, pCDFlist, single_step = TRUE)
 summary(DInd_fast)
 
 # d-Ind with critical values; using test results object
-DInd_crit <- DInd(test_results, critical_values = TRUE)
+DInd_crit <- DInd(test_results, single_step = TRUE, critical_values = TRUE)
 summary(DInd_crit)
  
 # d-Ind (step-down) without critical values; using test results object
-DInd_sd_fast <- DInd(test_results, stepdown = TRUE)
+DInd_sd_fast <- DInd(test_results)
 summary(DInd_sd_fast)
 
 # d-Ind (step-down) with critical values; using extracted p-values and supports
-DInd_sd_crit <- DInd(raw_pvalues, pCDFlist, stepdown = TRUE, critical_values = TRUE)
+DInd_sd_crit <- DInd(raw_pvalues, pCDFlist, critical_values = TRUE)
 summary(DInd_sd_crit)
 
 }

@@ -11,7 +11,7 @@
 #' \item{Data$pCDFlist}{list of the \eqn{p}-value supports.}
 #' \item{Data$FWER_level}{FWER level `alpha`.}
 #' \item{Data$Independence}{boolean indicating whether the \eqn{p}-values were considered as independent.}
-#' \item{Data$Stepdown}{boolean indicating whether a step-down or single-step procedure was performed.}
+#' \item{Data$Single_step}{boolean indicating whether a single-step or step-down procedure was performed.}
 #' \item{Data$Data_name}{the respective variable names of the input data.}
 #' \item{Select}{list with data related to \eqn{p}-value selection; only exists if `select_threshold < 1`.}
 #' \item{Select$Threshold}{\eqn{p}-value selection threshold (`select_threshold`).}

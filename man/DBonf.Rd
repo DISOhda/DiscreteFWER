@@ -54,7 +54,7 @@ A \code{DiscreteFWER} S3 class object whose elements are:
 \item{Data$pCDFlist}{list of the \eqn{p}-value supports.}
 \item{Data$FWER_level}{FWER level \code{alpha}.}
 \item{Data$Independence}{boolean indicating whether the \eqn{p}-values were considered as independent.}
-\item{Data$Stepdown}{boolean indicating whether a step-down or single-step procedure was performed.}
+\item{Data$Single_step}{boolean indicating whether a single-step or step-down procedure was performed.}
 \item{Data$Data_name}{the respective variable names of the input data.}
 \item{Select}{list with data related to \eqn{p}-value selection; only exists if \code{select_threshold < 1}.}
 \item{Select$Threshold}{\eqn{p}-value selection threshold (\code{select_threshold}).}
@@ -67,7 +67,8 @@ A \code{DiscreteFWER} S3 class object whose elements are:
 \description{
 \code{DBonf()} is a wrapper function of \code{\link[=discrete_FWER]{discrete_FWER()}} for computing the
 discrete Bonferroni procedure. It simply passes its arguments to
-\code{\link[=discrete_FWER]{discrete_FWER()}} with fixed \code{independence = FALSE} and \code{stepdown = FALSE}.
+\code{\link[=discrete_FWER]{discrete_FWER()}} with fixed \code{independence = FALSE} and
+\code{single_step = TRUE}.
 }
 \details{
 Computing critical constants (\code{critical_values = TRUE}) requires considerably

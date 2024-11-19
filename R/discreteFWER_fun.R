@@ -11,7 +11,7 @@
 #' @templateVar pCDFlist TRUE
 #' @templateVar alpha TRUE
 #' @templateVar independence TRUE
-#' @templateVar stepdown TRUE
+#' @templateVar single_step TRUE
 #' @templateVar critical_values TRUE
 #' @templateVar select_threshold TRUE
 #' @templateVar pCDFlist_indices TRUE
@@ -45,19 +45,19 @@
 #' summary(DFWER_dep_sd_crit)
 #' 
 #' # Discrete Bonferroni procedure without critical values; using extracted p-values and supports
-#' DFWER_dep_fast <- discrete_FWER(raw_pvalues, pCDFlist, stepdown = FALSE)
+#' DFWER_dep_fast <- discrete_FWER(raw_pvalues, pCDFlist, single_step = TRUE)
 #' summary(DFWER_dep_fast)
 #' 
 #' # Discrete Bonferroni procedure with critical values; using test results object
-#' DFWER_dep_crit <- discrete_FWER(test_results, stepdown = FALSE, critical_values = TRUE)
+#' DFWER_dep_crit <- discrete_FWER(test_results, single_step = TRUE, critical_values = TRUE)
 #' summary(DFWER_dep_crit)
 #' 
 #' # Discrete Šidák procedure without critical values; using extracted p-values and supports
-#' DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE, stepdown = FALSE)
+#' DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE, single_step = TRUE)
 #' summary(DFWER_ind_fast)
 #' 
 #' # Discrete Šidák procedure with critical values; using test results object
-#' DFWER_ind_crit <- discrete_FWER(test_results, independence = TRUE, stepdown = FALSE, 
+#' DFWER_ind_crit <- discrete_FWER(test_results, independence = TRUE, single_step = TRUE, 
 #'                                 critical_values = TRUE)
 #' summary(DFWER_ind_crit)
 #' 
@@ -72,7 +72,7 @@ discrete_FWER.default <- function(
     pCDFlist,
     alpha            = 0.05,
     independence     = FALSE,
-    stepdown         = TRUE,
+    single_step      = FALSE,
     critical_values  = FALSE,
     select_threshold = 1,
     pCDFlist_indices = NULL,
@@ -115,7 +115,7 @@ discrete_FWER.default <- function(
   qassert(independence, "B1")
   
   # step-down or single-step
-  qassert(stepdown, "B1")
+  qassert(single_step, "B1")
   
   # compute and return critical values?
   qassert(critical_values, "B1")
@@ -179,7 +179,7 @@ discrete_FWER.default <- function(
     pCDFlist_indices = pCDFlist_indices,
     alpha            = alpha,
     independence     = independence,
-    stepdown         = stepdown,
+    single_step      = single_step,
     crit_consts      = critical_values,
     threshold        = select_threshold,
     data_name        = paste(
@@ -199,7 +199,7 @@ discrete_FWER.DiscreteTestResults <- function(
     test_results,
     alpha            = 0.05,
     independence     = FALSE,
-    stepdown         = TRUE,
+    single_step      = FALSE,
     critical_values  = FALSE,
     select_threshold = 1,
     ...
@@ -221,7 +221,7 @@ discrete_FWER.DiscreteTestResults <- function(
   qassert(independence, "B1")
   
   # step-down or single-step
-  qassert(stepdown, "B1")
+  qassert(single_step, "B1")
   
   # compute and return critical values?
   qassert(critical_values, "B1")
@@ -238,7 +238,7 @@ discrete_FWER.DiscreteTestResults <- function(
     pCDFlist_indices = test_results$get_support_indices(),
     alpha            = alpha,
     independence     = independence,
-    stepdown         = stepdown,
+    single_step      = single_step,
     crit_consts      = critical_values,
     threshold        = select_threshold,
     data_name        = deparse(substitute(test_results))
