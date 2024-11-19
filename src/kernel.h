@@ -2,6 +2,8 @@
 
 //' @name kernel
 //' 
+//' @keywords internal
+//' 
 //' @title
 //' Kernel Functions
 //' 
