@@ -15,7 +15,11 @@ Yet to come.
 \references{
 Döhler, S. (2010). Validation of credit default probabilities using
 multiple-testing procedures. \emph{Journal of Risk Model Validation}, \emph{4}(4),
-pp. 59-92. \doi{10.21314/JRMV.2010.062}
+59-92. \doi{10.21314/JRMV.2010.062}
+
+Zhu, Y., & Guo, W. (2019). Family-Wise Error Rate Controlling Procedures for
+Discrete Data. \emph{Statistics in Biopharmaceutical Research}, \emph{12}(1),
+117-128. \doi{10.1080/19466315.2019.1654912}
 }
 \seealso{
 Useful links:

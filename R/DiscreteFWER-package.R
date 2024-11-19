@@ -14,8 +14,12 @@
 #' 
 #' @references
 #' Döhler, S. (2010). Validation of credit default probabilities using
-#' multiple-testing procedures. *Journal of Risk Model Validation*, *4*(4),
-#' pp. 59-92. \doi{10.21314/JRMV.2010.062}
+#'   multiple-testing procedures. *Journal of Risk Model Validation*, *4*(4),
+#'   59-92. \doi{10.21314/JRMV.2010.062}
+#' 
+#' Zhu, Y., & Guo, W. (2019). Family-Wise Error Rate Controlling Procedures for
+#'   Discrete Data. *Statistics in Biopharmaceutical Research*, *12*(1),
+#'   117-128. \doi{10.1080/19466315.2019.1654912}
 #' 
 "_PACKAGE"
 
