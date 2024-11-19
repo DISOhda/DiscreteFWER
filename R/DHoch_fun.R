@@ -1,13 +1,13 @@
-#' @name DBonf
+#' @name DHoch
 #' 
 #' @title
-#' Discrete Bonferroni Procedure
+#' Discrete Hochberg Procedure
 #' 
 #' @description 
-#' `DBonf()` is a wrapper function of [`discrete_FWER()`] for computing the
-#' discrete Bonferroni procedure. It simply passes its arguments to
-#' [`discrete_FWER()`] with fixed `independence = FALSE` and
-#' `single_step = TRUE`.
+#' `DHoch()` is a wrapper function of [`discrete_FWER()`] for computing the
+#' discrete Holm procedure for independent or positively correlated discrete
+#' tests. It simply passes its arguments to [`discrete_FWER()`] with fixed
+#' `independence = TRUE` and `single_step = FALSE`.
 #' 
 #' @templateVar test_results TRUE
 #' @templateVar pCDFlist TRUE
@@ -23,33 +23,29 @@
 #' @template return
 #' 
 #' @seealso
-#' [`discrete_FWER()`], [`DHolm()`], [`DSidak()`], [`DHoch()`]
+#' [`discrete_FWER()`], [`DSidak()`], [`DBonf()`], [`DHolm`]
 #' 
 #' @references
-#' Döhler, S. (2010). Validation of credit default probabilities using
-#'   multiple-testing procedures. *Journal of Risk Model Validation*, *4*(4),
-#'   59-92. \doi{10.21314/JRMV.2010.062}
-#' 
 #' Zhu, Y., & Guo, W. (2019). Family-Wise Error Rate Controlling Procedures for
 #'   Discrete Data. *Statistics in Biopharmaceutical Research*, *12*(1), 
 #'   117-128. \doi{10.1080/19466315.2019.1654912}
 #'  
 #' @template example
 #' @examples
-#' # d-Bonf without critical values; using extracted p-values and supports
-#' DBonf_fast <- DBonf(raw_pvalues, pCDFlist)
-#' summary(DBonf_fast)
+#' # d-Hochberg without critical values; using extracted p-values and supports
+#' DHoch_fast <- DHoch(raw_pvalues, pCDFlist)
+#' summary(DHoch_fast)
 #' 
-#' # d-Bonf with critical values; using test results object
-#' DBonf_crit <- DBonf(test_results, critical_values = TRUE)
-#' summary(DBonf_crit)
+#' # d-Hochberg with critical values; using test results object
+#' DHoch_crit <- DHoch(test_results, critical_values = TRUE)
+#' summary(DHoch_crit)
 #' 
 #' @export
-DBonf <- function(test_results, ...) UseMethod("DBonf")
+DHoch <- function(test_results, ...) UseMethod("DHoch")
 
-#' @rdname DBonf
+#' @rdname DHoch
 #' @export
-DBonf.default <- function(
+DHoch.default <- function(
     test_results,
     pCDFlist,
     alpha            = 0.05,
@@ -62,8 +58,8 @@ DBonf.default <- function(
     test_results     = test_results,
     pCDFlist         = pCDFlist,
     alpha            = alpha,
-    independence     = FALSE,
-    single_step      = TRUE,
+    independence     = TRUE,
+    single_step      = FALSE,
     critical_values  = critical_values,
     select_threshold = select_threshold,
     pCDFlist_indices = pCDFlist_indices,
@@ -79,9 +75,9 @@ DBonf.default <- function(
   return(out)
 }
 
-#' @rdname DBonf
+#' @rdname DHoch
 #' @export
-DBonf.DiscreteTestResults <- function(
+DHoch.DiscreteTestResults <- function(
     test_results,
     alpha            = 0.05,
     critical_values  = FALSE,
@@ -91,8 +87,8 @@ DBonf.DiscreteTestResults <- function(
   out <- discrete_FWER.DiscreteTestResults(
     test_results     = test_results,
     alpha            = alpha,
-    independence     = FALSE,
-    single_step      = TRUE,
+    independence     = TRUE,
+    single_step      = FALSE,
     critical_values  = critical_values,
     select_threshold = select_threshold,
     ...

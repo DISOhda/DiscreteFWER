@@ -17,8 +17,8 @@ discrete_fwer_int <- function(
   #--------------------------------------------
   input_data <- list()
   input_data$Method <- if(independence) {
-    # independence, i.e. Sidak
-    paste0("Discrete Šidák", ifelse(single_step, "", " (step-down)"), " procedure")
+    # independence, i.e. Sidak/Hochberg
+    paste("Discrete", ifelse(single_step, "Šidák", "Hochberg"), "procedure")
   } else {
     # not independence, i.e. Bonferroni/Holm
     paste("Discrete", ifelse(single_step, "Bonferroni", "Holm"), "procedure")
@@ -97,8 +97,10 @@ discrete_fwer_int <- function(
   ord <- order(pvec)
   org_ord <- order(ord)
   sorted_pvals <- pvec[ord]
-  sorted_pCDFlist_indices <- lapply(pCDFlist_indices, function(l) sort(org_ord[l]))
-  #return(list(sorted_pvals, pCDFlist, pCDFlist_indices, ord, org_ord, sorted_pCDFlist_indices, n, m))
+  sorted_pCDFlist_indices <- if(!is.null(pCDFlist_indices))
+    lapply(pCDFlist_indices, function(l) sort(org_ord[l])) else
+      as.list(org_ord)
+  
   #--------------------------------------------
   #       construct the vector of all values of all supports of the p-values
   #--------------------------------------------
@@ -116,11 +118,13 @@ discrete_fwer_int <- function(
       crit_constants <- res$crit_consts
       idx_rej <- which(sorted_pvals <= crit_constants)
     } else {
-      res <- kernel_DFWER_sd_crit(
+      res <- kernel_DFWER_multi_crit(
         pCDFlist, support, sorted_pvals, alpha, independence, sorted_pCDFlist_indices
       )
       crit_constants <- res$crit_consts
-      idx_rej <- which(sorted_pvals > crit_constants)
+      idx_rej <- if(independence) 
+        which(sorted_pvals <= crit_constants) else
+          which(sorted_pvals > crit_constants)
     }
   } else {
     if(single_step) {
@@ -129,15 +133,17 @@ discrete_fwer_int <- function(
       )
       idx_rej <- which(res <= alpha)
     } else {
-      res <- kernel_DFWER_sd_fast(
+      res <- kernel_DFWER_multi_fast(
         pCDFlist, sorted_pvals, independence, sorted_pCDFlist_indices
       )
-      idx_rej <- which(res > alpha)
+      idx_rej <- if(independence) 
+        which(res <= alpha) else
+          which(res > alpha)
     }
   }
   
   k <- length(idx_rej)
-  if(single_step) {
+  if(single_step || (!single_step && independence)) {
     if(k > 0) {
       m_rej <- max(idx_rej)
       # determine significant (observed) p-values in sorted_pvals
@@ -177,12 +183,13 @@ discrete_fwer_int <- function(
   )
   
   # adjusted p-values
-  if(crit_consts) {
-    res <- res$pval_transf
-  }
+  pv_adj <- if(crit_consts) res$pval_transf else res
   # compute adjusted p-values
-  pv_adj <- pmin(res, 1)
-  if(!single_step) pv_adj <- cummax(pv_adj)
+  #pv_adj <- pmin(res, 1)
+  #if(!single_step)
+  #  if(independence) 
+  #    pv_adj <- rev(cummin(rev(pv_adj))) else
+  #      pv_adj <- cummax(pv_adj)
   # add adjusted p-values to output list
   output$Adjusted          <- numeric(n)
   output$Adjusted[select]  <- pv_adj[org_ord]
