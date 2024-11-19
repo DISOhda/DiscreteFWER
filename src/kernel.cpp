@@ -3,17 +3,17 @@
 NumericVector kernel_DFWER_single_fast(
   const List &pCDFlist,
   const NumericVector &pvalues,
-  const bool independent,
-  const Nullable<NumericVector> &pCDFcounts
+  const bool independence,
+  const Nullable<IntegerVector> &pCDFcounts
 ) {
   // Number of p-values
   int numValues = pvalues.length();
   // number of unique p-value distributions
   int numCDF = pCDFlist.length();
   // counts of the CDFs
-  NumericVector CDFcounts;
-  if(numCDF == numValues || pCDFcounts.isNull()) 
-    CDFcounts = NumericVector(numCDF, 1.0);
+  IntegerVector CDFcounts;
+  if(numCDF == numValues || pCDFcounts.isNull() || as<IntegerVector>(pCDFcounts).length() == 0) 
+    CDFcounts = IntegerVector(numCDF, 1.0);
   else 
     CDFcounts = pCDFcounts;
   
@@ -34,17 +34,21 @@ NumericVector kernel_DFWER_single_fast(
       f_eval[j] = eval_pv(pvalues[j], sfuns[i], len, pos);
     }
     
-    if(independent)
-      pval_transf += CDFcounts[i] * log(1 - f_eval);
+    if(independence)
+      pval_transf += (double)CDFcounts[i] * log(1 - f_eval);
     else 
-      pval_transf += CDFcounts[i] * f_eval;
+      pval_transf += (double)CDFcounts[i] * f_eval;
   }
   
-  if(independent)
+  if(independence)
     pval_transf = 1 - exp(pval_transf);
   
   // garbage collection
   delete[] sfuns;
+  
+  // compute adjustments
+  for(int i = 0; i < numValues; i++)
+    if(pval_transf[i] > 1.0) pval_transf[i] = 1.0;
   
   return pval_transf;
 }
@@ -54,8 +58,8 @@ List kernel_DFWER_single_crit(
   const NumericVector &support,
   const NumericVector &sorted_pv,
   const double alpha,
-  const bool independent,
-  const Nullable<NumericVector> &pCDFcounts
+  const bool independence,
+  const Nullable<IntegerVector> &pCDFcounts
 ) {
   // number of tests
   int numTests = sorted_pv.length();
@@ -69,9 +73,11 @@ List kernel_DFWER_single_crit(
   for(int i = 0; i < numCDF; i++) sfuns[i] = as<NumericVector>(pCDFlist[i]);
   
   // get count of each unique p-value distribution
-  NumericVector CDFcounts;
-  if(pCDFcounts.isNull()) CDFcounts = NumericVector(numCDF, 1.0);
-  else CDFcounts = pCDFcounts;
+  IntegerVector CDFcounts;
+  if(pCDFcounts.isNull() || as<IntegerVector>(pCDFcounts).length() == 0)
+    CDFcounts = IntegerVector(numCDF, 1.0);
+  else
+    CDFcounts = pCDFcounts;
   
   // restrict support to values <= alpha (critical value cannot exceed alpha)
   int idx_max = binary_search(support, alpha, numValues);
@@ -79,7 +85,7 @@ List kernel_DFWER_single_crit(
   
   // transform support with fast kernel
   NumericVector support_transf = kernel_DFWER_single_fast(
-    pCDFlist, support, independent, CDFcounts
+    pCDFlist, support, independence, CDFcounts
   );
   
   // get index of critical value
@@ -89,25 +95,25 @@ List kernel_DFWER_single_crit(
   
   // store transformed sorted pvalues
   NumericVector pval_transf(numTests);
-  // search for sorted p-values in 'pv_list' and get their transformations
+  // search for sorted p-values in 'pv_list' and save their adjustments
   idx_pval = 0;
   for(int i = 0; i < numTests; i++) {
     checkUserInterrupt();
     while(idx_pval < numValues && support[idx_pval] < sorted_pv[i]) idx_pval++;
-    pval_transf[i] = support_transf[idx_pval];
+    pval_transf[i] = std::min<double>(1.0, support_transf[idx_pval]);
   }
   
   // garbage collection
   delete[] sfuns;
   
-  // return critical values and transformed sorted p-values
-  return List::create(Named("crit.consts") = crit, Named("pval.transf") = pval_transf);
+  // return critical values and adjusted sorted p-values
+  return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
 }
 
 NumericVector kernel_DFWER_multi_fast(
   const List &pCDFlist,
   const NumericVector &sorted_pv,
-  const bool independent,
+  const bool independence,
   const Nullable<List> &pCDFindices
 ) {
   // number of tests
@@ -117,7 +123,7 @@ NumericVector kernel_DFWER_multi_fast(
   // indices of the CDFs and their counts
   IntegerVector* CDFindices = new IntegerVector[numCDF];
   int* CDFcounts = new int[numCDF];
-  if(pCDFindices.isNull()) {
+  if(pCDFindices.isNull() || as<List>(pCDFindices).length() == 0) {
     for(int i = 0; i < numCDF; i++) {
       CDFindices[i] = IntegerVector(1, i + 1);
       CDFcounts[i] = 1;
@@ -149,7 +155,7 @@ NumericVector kernel_DFWER_multi_fast(
     for(int j = 0; j < CDFindices[i][CDFcounts[i] - 1]; j++) {
       // evaluate i-th CDF for all RELEVANT p-values and multiply with count 
       f_eval[j] = eval_pv(sorted_pv[j], sfuns[i], len, pos);
-      if(independent) f_eval[j] = std::log(1 - f_eval[j]);
+      //if(independence) f_eval[j] = std::log(1 - f_eval[j]);
       f_eval[j] *= (CDFcounts[i] - k);
       if(CDFindices[i][k] == j + 1) k++;
     }
@@ -159,9 +165,18 @@ NumericVector kernel_DFWER_multi_fast(
     // add evaluations to overall sums
     pval_transf += f_eval;
   }
-  if(independent)
+  //if(independence)
     // revert log
-    pval_transf = 1 - exp(pval_transf);
+  //  pval_transf = 1 - exp(pval_transf);
+  
+  // compute adjustments
+  pval_transf[numTests - 1] = std::min<double>(1.0, pval_transf[numTests - 1]);
+  if(independence)
+    for(int i = numTests - 2; i >= 0; i--)
+      pval_transf[i] = std::min<double>(pval_transf[i], pval_transf[i + 1]);
+  else
+    for(int i = 1; i < numTests; i++)
+      pval_transf[i] = std::max<double>(pval_transf[i - 1], std::min<double>(1.0, pval_transf[i]));
   
   // garbage collection
   delete[] sfuns;
@@ -176,7 +191,7 @@ List kernel_DFWER_multi_crit(
     const NumericVector &support,
     const NumericVector &sorted_pv,
     const double alpha,
-    const bool independent,
+    const bool independence,
     const Nullable<List> &pCDFindices
 ) {
   // number of tests
@@ -197,7 +212,7 @@ List kernel_DFWER_multi_crit(
   // indices of the CDFs and their counts
   int* CDFcounts = new int[numCDF];
   int* pv2CDFindices = new int[numTests];
-  if(pCDFindices.isNull()) {
+  if(pCDFindices.isNull() || as<List>(pCDFindices).length() == 0) {
     for(int i = 0; i < numCDF; i++) {
       CDFcounts[i] = 1;
       pv2CDFindices[i] = i;
@@ -211,7 +226,7 @@ List kernel_DFWER_multi_crit(
     }
   }
   // threshold
-  double beta = independent ? -std::log(1 - alpha) : alpha;
+  double beta = alpha;//independence ? -std::log(1 - alpha) : alpha;
   
   // vector to store transformed p-values
   NumericVector pval_transf;
@@ -229,12 +244,11 @@ List kernel_DFWER_multi_crit(
   for(int i = 0; i < numCDF; i++) {
     checkUserInterrupt();
     int pos = 0;
-    for(int j = 0; j <= limit; j++) {
+    for(int j = 0; j <= limit; j++) 
       f_eval[j] = eval_pv(pv_list[j], sfuns[i], lens[i], pos);
-    }
-    if(independent)
-      pval_transf += -CDFcounts[i] * log(1 - f_eval);
-    else 
+    //if(independence)
+    //  pval_transf += -CDFcounts[i] * log(1 - f_eval);
+    //else 
       pval_transf += CDFcounts[i] * f_eval;
   }
   
@@ -264,6 +278,7 @@ List kernel_DFWER_multi_crit(
   // search for critical values and transform observed p-values
   while(idx_crit >= 0) {
     checkUserInterrupt();
+    
     // number of observed p-values equal to current one ("block" size)
     count_pv = 1;
     while(
@@ -271,23 +286,31 @@ List kernel_DFWER_multi_crit(
         sorted_pv[idx_crit - count_pv] == sorted_pv[idx_crit]
     )
       count_pv++;
+    
+    // find current p-value in support for adjustment
+    while(idx_transf > 0 && pv_list[idx_transf] > sorted_pv[idx_crit]) 
+      idx_transf--;
+    
     // determine critical value and transformation
     if(count_pv == 1) {  // current p-value is unique
       // index of CDF belonging to current p-value
       int idx_CDF = pv2CDFindices[idx_crit];
       // vector for evaluating current CDF
       NumericVector f_eval(numValues);
+      
       // evaluate CDF and add its attainable values to support
       for(int i = 0; i < numValues; i++) {
         int pos = 0;
         f_eval[i] = eval_pv(pv_list[i], sfuns[idx_CDF], lens[idx_CDF], pos);
         supported[i] = supported[i] || (f_eval[i] == pv_list[i]);
       }
+      
       // add evaluations to overall sums
-      if(independent)
-        pval_sums += -log(1 - f_eval);
-      else
+      //if(independence)
+      //  pval_sums += -log(1 - f_eval);
+      //else
         pval_sums += f_eval;
+      
       // find critical value
       idx_pval = numValues - 1;
       while(
@@ -295,33 +318,38 @@ List kernel_DFWER_multi_crit(
           (pval_sums[idx_pval] > beta || !supported[idx_pval])
       )
         idx_pval--;
+      
       // save critical value
       crit[idx_crit] = pv_list[idx_pval];
-      //Rcout << idx_crit << ": " << crit[idx_crit] << "\n";
       
-      // compute adjusted p-value
-      while(idx_transf > 0 && pv_list[idx_transf] > sorted_pv[idx_crit]) 
-        idx_transf--;
+      // compute transformed p-value
       if(pv_list[idx_transf] == sorted_pv[idx_crit]) 
-        pval_transf[idx_crit] = independent 
-          ? 1 - std::exp(-pval_sums[idx_transf])
-          : pval_sums[idx_transf];
+      //  pval_transf[idx_crit] = independence 
+      //    ? 1 - std::exp(-pval_sums[idx_transf])
+      //    : pval_sums[idx_transf];
+        pval_transf[idx_crit] = pval_sums[idx_transf];
       
       // go to next critical value
       idx_crit--;
     } else {  // current p-value is not unique (i.e. in a "block")
-      // reset running CDF counts
+      // determine CDF counts for current "block"
       for(int i = 0; i < numCDF; i++) CDFcounts_running[i] = 0;
       // largest index of CDFs in "block"
       int max_CDF = 0;
+      // index of current CDF
+      int idx_CDF;
       // determine counts and largest index
       for(int i = idx_crit - count_pv + 1; i <= idx_crit; i++) {
-        int idx_CDF = pv2CDFindices[i];
+        idx_CDF = pv2CDFindices[i];
         max_CDF = std::max<int>(max_CDF, idx_CDF);
         CDFcounts_running[idx_CDF]++;
       }
+      // index of last CDF for current p-value "block"
+      int idx_last = idx_CDF;
+      // last sum of current p-value
+      double pval_sum_last = pval_sums[idx_transf];
       
-      for(int idx_CDF = 0; idx_CDF <= max_CDF; idx_CDF++) {
+      for(idx_CDF = 0; idx_CDF <= max_CDF; idx_CDF++) {
         if(CDFcounts_running[idx_CDF] > 0) {
           // vector for evaluating current CDF
           NumericVector f_eval(numValues);
@@ -332,10 +360,13 @@ List kernel_DFWER_multi_crit(
             supported[i] = supported[i] || (f_eval[i] == pv_list[i]);
           }
           // add evaluations to overall sums
-          if(independent)
-            pval_sums += -log(1 - f_eval) * CDFcounts_running[idx_CDF];
-          else
+          //if(independence)
+          //  pval_sums += -log(1 - f_eval) * CDFcounts_running[idx_CDF];
+          //else
             pval_sums += f_eval * CDFcounts_running[idx_CDF];
+          // compute adjustment for Hochberg procedure
+          if(independence && idx_CDF == idx_last)
+            pval_sum_last += f_eval[idx_transf];
         }
       }
       
@@ -347,24 +378,33 @@ List kernel_DFWER_multi_crit(
       )
         idx_pval--;
       
-      // find current p-value in support for adjustment
-      while(idx_transf > 0 && pv_list[idx_transf] > sorted_pv[idx_crit]) 
-        idx_transf--;
-      
-      // save critical values and transform p-values
+      // save critical values and transformed p-values
       for(int i = idx_crit - count_pv + 1; i <= idx_crit; i++) {
         // critical values
         crit[i] = pv_list[idx_pval];
         // transform p-value
         if(pv_list[idx_transf] == sorted_pv[idx_crit]) 
-          pval_transf[i] = independent
-            ? 1 - std::exp(-pval_sums[idx_transf])
+          //pval_transf[i] = independence
+          //  ? 1 - std::exp(-pval_sums[idx_transf])
+          //  : pval_sums[idx_transf];
+          pval_transf[i] = independence
+            ? pval_sum_last
             : pval_sums[idx_transf];
       }
       
       // go to next critical values
       idx_crit -= count_pv;
     }
+  }
+  
+  if(independence) {
+    pval_transf[numTests - 1] = std::min<double>(1.0, pval_transf[numTests - 1]);
+    for(int i = numTests - 2; i >= 0; i--)
+      pval_transf[i] = std::min<double>(pval_transf[i], pval_transf[i + 1]);
+  } else {
+    pval_transf[0] = std::min<double>(1.0, pval_transf[0]);
+    for(int i = 1; i < numTests; i++)
+      pval_transf[i] = std::max<double>(pval_transf[i - 1], std::min<double>(1.0, pval_transf[i]));
   }
   
   // garbage collection
@@ -375,7 +415,7 @@ List kernel_DFWER_multi_crit(
   delete[] sfuns;
   
   // output results
-  return List::create(Named("crit.consts") = crit, Named("pval.transf") = pval_transf);
+  return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
 }
 
 // [[Rcpp::export]]
@@ -384,7 +424,7 @@ List kernel_DFWER_multi_crit2(
     const NumericVector &support,
     const NumericVector &sorted_pv,
     const double alpha,
-    const bool independent,
+    const bool independence,
     const Nullable<List> &pCDFindices
 ) {
   // number of tests
@@ -405,7 +445,7 @@ List kernel_DFWER_multi_crit2(
   // indices of the CDFs and their counts
   int* CDFcounts = new int[numCDF];
   int* pv2CDFindices = new int[numTests];
-  if(pCDFindices.isNull()) {
+  if(pCDFindices.isNull() || as<List>(pCDFindices).length() == 0) {
     for(int i = 0; i < numCDF; i++) {
       CDFcounts[i] = 1;
       pv2CDFindices[i] = i;
@@ -419,7 +459,7 @@ List kernel_DFWER_multi_crit2(
     }
   }
   // threshold
-  double beta = independent ? -std::log(1 - alpha) : alpha;
+  double beta = independence ? -std::log(1 - alpha) : alpha;
   
   // vector to store transformed p-values
   NumericVector pval_transf;
@@ -440,7 +480,7 @@ List kernel_DFWER_multi_crit2(
     for(int j = 0; j <= limit; j++) {
       f_eval[j] = eval_pv(pv_list[j], sfuns[i], lens[i], pos);
     }
-    if(independent)
+    if(independence)
       pval_transf += -CDFcounts[i] * log(1 - f_eval);
     else 
       pval_transf += CDFcounts[i] * f_eval;
@@ -492,7 +532,7 @@ List kernel_DFWER_multi_crit2(
         supported[i] = supported[i] || (f_eval[i] == pv_list[i]);
       }
       // add evaluations to overall sums
-      if(independent)
+      if(independence)
         pval_sums += -log(1 - f_eval);
       else
         pval_sums += f_eval;
@@ -511,7 +551,7 @@ List kernel_DFWER_multi_crit2(
       while(idx_transf > 0 && pv_list[idx_transf] > sorted_pv[idx_crit]) 
         idx_transf--;
       if(pv_list[idx_transf] == sorted_pv[idx_crit]) 
-        pval_transf[idx_crit] = independent 
+        pval_transf[idx_crit] = independence 
       ? 1 - std::exp(-pval_sums[idx_transf])
         : pval_sums[idx_transf];
       
@@ -551,7 +591,7 @@ List kernel_DFWER_multi_crit2(
               f_eval[i] = eval_pv(pv_list[i], sfuns[idx_CDF], lens[idx_CDF], pos);
               supported_temp[i] = (f_eval[i] == pv_list[i]);
             }
-            if(independent) f_eval = -log(1 - f_eval);
+            if(independence) f_eval = -log(1 - f_eval);
             // find critical value
             idx_pval = numValues - 1;
             while(
@@ -583,7 +623,7 @@ List kernel_DFWER_multi_crit2(
         while(idx_transf > 0 && pv_list[idx_transf] > sorted_pv[idx_crit]) 
           idx_transf--;
         if(pv_list[idx_transf] == sorted_pv[idx_crit]) 
-          pval_transf[idx_crit] = independent
+          pval_transf[idx_crit] = independence
         ? 1 - std::exp(-pval_sums[idx_transf])
           : pval_sums[idx_transf];
         
@@ -605,5 +645,5 @@ List kernel_DFWER_multi_crit2(
   delete[] sfuns;
   
   // output results
-  return List::create(Named("crit.consts") = crit, Named("pval.transf") = pval_transf);
+  return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
 }

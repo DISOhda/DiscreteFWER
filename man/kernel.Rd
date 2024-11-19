@@ -4,14 +4,14 @@
 \alias{kernel}
 \alias{kernel_DFWER_single_fast}
 \alias{kernel_DFWER_single_crit}
-\alias{kernel_DFWER_sd_fast}
-\alias{kernel_DFWER_sd_crit}
+\alias{kernel_DFWER_multi_fast}
+\alias{kernel_DFWER_multi_crit}
 \title{Kernel Functions}
 \usage{
 kernel_DFWER_single_fast(
   pCDFlist,
   pvalues,
-  independent = FALSE,
+  independence = FALSE,
   pCDFcounts = NULL
 )
 
@@ -20,41 +20,42 @@ kernel_DFWER_single_crit(
   support,
   sorted_pv,
   alpha = 0.05,
-  independent = FALSE,
+  independence = FALSE,
   pCDFcounts = NULL
 )
 
-kernel_DFWER_sd_fast(
+kernel_DFWER_multi_fast(
   pCDFlist,
   sorted_pv,
-  independent = FALSE,
+  independence = FALSE,
   pCDFindices = NULL
 )
 
-kernel_DFWER_sd_crit(
+kernel_DFWER_multi_crit(
   pCDFlist,
   support,
   sorted_pv,
   alpha = 0.05,
-  independent = FALSE,
+  independence = FALSE,
   pCDFindices = NULL
 )
 }
 \arguments{
 \item{pCDFlist}{list of the supports of the CDFs of the \eqn{p}-values; each list item must be a numeric vector, which is sorted in increasing order and whose last element equals 1.}
 
-\item{pvalues}{numeric vector, sorted in increasing order, that either
-must contain the entirety of all observable values of
-the p-value supports (when computing critical
-constants) or only the sorted raw p-values.}
+\item{pvalues}{numeric vector, sorted in increasing order, that
+either must contain the entirety of all observable
+values of the p-value supports (when computing
+critical constants) or only the sorted raw p-values.}
 
-\item{independent}{single boolean specifying whether the \eqn{p}-values
+\item{independence}{single boolean specifying whether the \eqn{p}-values
 are independent; if FALSE (the default), the discrete
 Bonferroni procedure [d-Bonf] is performed;
 otherwise, [d-Ind] is computed.}
 
 \item{pCDFcounts}{integer vector of counts that indicates to how many
-p-values each \strong{unique} p-value distributions belongs.}
+p-values each \strong{unique} p-value distributions
+belongs.}
 
 \item{support}{numeric vector, sorted in increasing order, that
 contains the entirety of all observable values of the
@@ -67,13 +68,14 @@ the raw p-values.}
 the target FWER level.}
 
 \item{pCDFindices}{list of integer vectors containing the indices that
-indicate to which raw \eqn{p}-value in \code{sorted_pv} each
-item in \code{pCDFlist} belongs, and must have the same
-length as \code{pCDFlist}; if \code{NULL} (the default), it is
-assumed that the first item of \code{pCDFlist} corresponds
-to the first \eqn{p}-value, the second item to the
-second \eqn{p}-value etc. in which case the lengths of
-\code{pCDFlist} and \code{sorted_pv} must be equal.}
+indicate to which raw \eqn{p}-value in \code{sorted_pv}
+each item in \code{pCDFlist} belongs, and must have the
+same length as \code{pCDFlist}; if \code{NULL} (the default), it
+is assumed that the first item of \code{pCDFlist}
+corresponds to the first \eqn{p}-value, the second
+item to the second \eqn{p}-value etc. in which case
+the lengths of \code{pCDFlist} and \code{sorted_pv} must be
+equal.}
 }
 \value{
 For \code{kernel_DFWER_fast()} a vector of transformed p-values is returned.
