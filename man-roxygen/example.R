@@ -10,7 +10,7 @@
 #'
 #' # Construction of the p-values and their supports with Fisher's exact test
 #' library(DiscreteTests)  # for Fisher's exact test
-#' test.results <- fisher_test_pv(df)
-#' raw.pvalues <- test.results$get_pvalues()
-#' pCDFlist <- test.results$get_pvalue_supports()
+#' test_results <- fisher_test_pv(df)
+#' raw_pvalues <- test_results$get_pvalues()
+#' pCDFlist <- test_results$get_pvalue_supports()
 #' 
