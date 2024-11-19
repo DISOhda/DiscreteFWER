@@ -81,6 +81,21 @@ We recommend that users should only have them calculated when they need them,
 e.g. for illustrating the rejection area in a plot or other theoretical
 reasons. Setting (\code{critical_values = FALSE}) is sufficient for obtaining
 rejection decisions and adjusted \eqn{p}-values.
+
+Depending on the choices of \code{independence} and \code{single_step}, one of the
+following procedures, is applied:
+\tabular{lcc}{
+\tab single-step \tab stepwise \cr
+independent      \tab    Šidák    \tab Hochberg \cr
+not independent  \tab  Bonferroni \tab   Holm   \cr
+}
+
+Each procedure is available by its own shortcut function:
+\tabular{lcc}{
+\tab single-step \tab  stepwise \cr
+independent      \tab  \code{DSidak()} \tab \code{DHoch()} \cr
+not independent  \tab  \code{DBonf()}  \tab \code{DHolm()} \cr
+}
 }
 \examples{
 X1 <- c(4, 2, 2, 14, 6, 9, 4, 0, 1)
@@ -114,6 +129,15 @@ summary(DFWER_dep_fast)
 DFWER_dep_crit <- discrete_FWER(test_results, single_step = TRUE, critical_values = TRUE)
 summary(DFWER_dep_crit)
 
+# Discrete Hochberg procedure without critical values; using test results object
+DFWER_ind_su_fast <- discrete_FWER(test_results, independence = TRUE)
+summary(DFWER_ind_su_fast)
+
+# Discrete Hochberg procedure with critical values; using extracted p-values and supports
+DFWER_ind_su_crit <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE,
+                                   critical_values = TRUE)
+summary(DFWER_ind_su_crit)
+
 # Discrete Šidák procedure without critical values; using extracted p-values and supports
 DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE, single_step = TRUE)
 summary(DFWER_ind_fast)
@@ -134,5 +158,5 @@ Discrete Data. \emph{Statistics in Biopharmaceutical Research}, \emph{12}(1),
 117-128. \doi{10.1080/19466315.2019.1654912}
 }
 \seealso{
-\code{\link[=DiscreteFWER-package]{DiscreteFWER}}, \code{\link[=DBonf]{DBonf()}}, \code{\link[=DHolm]{DHolm()}}, \code{\link[=DInd]{DInd()}}
+\code{\link[=DiscreteFWER-package]{DiscreteFWER}}, \code{\link[=DBonf]{DBonf()}}, \code{\link[=DHolm]{DHolm()}}, \code{\link[=DSidak]{DSidak()}}
 }

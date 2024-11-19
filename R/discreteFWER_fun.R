@@ -19,11 +19,27 @@
 #' @template param
 #'  
 #' @template details_crit
+#' @details
+#'  
+#' Depending on the choices of `independence` and `single_step`, one of the
+#' following procedures, is applied:
+#' \tabular{lcc}{
+#'                    \tab single-step \tab stepwise \cr
+#'   independent      \tab    Šidák    \tab Hochberg \cr 
+#'   not independent  \tab  Bonferroni \tab   Holm   \cr
+#' }
+#' 
+#' Each procedure is available by its own shortcut function:
+#' \tabular{lcc}{
+#'                    \tab single-step \tab  stepwise \cr
+#'   independent      \tab  `DSidak()` \tab `DHoch()` \cr 
+#'   not independent  \tab  `DBonf()`  \tab `DHolm()` \cr
+#' }
 #' 
 #' @template return
 #' 
 #' @seealso
-#' [`DiscreteFWER`][DiscreteFWER-package], [`DBonf()`], [`DHolm()`], [`DInd()`]
+#' [`DiscreteFWER`][DiscreteFWER-package], [`DBonf()`], [`DHolm()`], [`DSidak()`]
 #' 
 #' @references
 #' Döhler, S. (2010). Validation of credit default probabilities using
@@ -51,6 +67,15 @@
 #' # Discrete Bonferroni procedure with critical values; using test results object
 #' DFWER_dep_crit <- discrete_FWER(test_results, single_step = TRUE, critical_values = TRUE)
 #' summary(DFWER_dep_crit)
+#' 
+#' # Discrete Hochberg procedure without critical values; using test results object
+#' DFWER_ind_su_fast <- discrete_FWER(test_results, independence = TRUE)
+#' summary(DFWER_ind_su_fast)
+#' 
+#' # Discrete Hochberg procedure with critical values; using extracted p-values and supports
+#' DFWER_ind_su_crit <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE,
+#'                                    critical_values = TRUE)
+#' summary(DFWER_ind_su_crit)
 #' 
 #' # Discrete Šidák procedure without critical values; using extracted p-values and supports
 #' DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE, single_step = TRUE)
