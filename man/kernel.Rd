@@ -41,7 +41,7 @@ kernel_DFWER_sd_crit(
 )
 }
 \arguments{
-\item{pCDFlist}{list of the supports of the CDFs of the p-values; each list item must be a numeric vector, which is sorted in increasing order and whose last element equals 1.}
+\item{pCDFlist}{list of the supports of the CDFs of the \eqn{p}-values; each list item must be a numeric vector, which is sorted in increasing order and whose last element equals 1.}
 
 \item{pvalues}{numeric vector, sorted in increasing order, that either
 must contain the entirety of all observable values of
@@ -101,9 +101,9 @@ df
 
 # Construction of the p-values and their supports with Fisher's exact test
 library(DiscreteTests)  # for Fisher's exact test
-test.results <- fisher_test_pv(df)
-raw.pvalues <- test.results$get_pvalues()
-pCDFlist <- test.results$get_pvalue_supports()
+test_results <- fisher_test_pv(df)
+raw_pvalues <- test_results$get_pvalues()
+pCDFlist <- test_results$get_pvalue_supports()
 
 alpha <- 0.05
 
@@ -132,3 +132,4 @@ y.dInd.crit$pval.transf
 \seealso{
 \code{\link[=discrete.FWER]{discrete.FWER()}}, \code{\link[=direct.discrete.FWER]{direct.discrete.FWER()}}
 }
+\keyword{internal}
