@@ -66,9 +66,9 @@ A \code{DiscreteFWER} S3 class object whose elements are:
 }
 \description{
 \code{DHolm()} is a wrapper function of \code{\link[=discrete_FWER]{discrete_FWER()}} for computing the
-discrete Holm procedure. It simply passes its arguments to
-\code{\link[=discrete_FWER]{discrete_FWER()}} with fixed \code{independence = FALSE} and
-\code{single_step = FALSE}.
+discrete Holm procedure for tests with an arbitrary dependency structure. It
+simply passes its arguments to \code{\link[=discrete_FWER]{discrete_FWER()}} with fixed
+\code{independence = FALSE} and \code{single_step = FALSE}.
 }
 \details{
 Computing critical constants (\code{critical_values = TRUE}) requires considerably
@@ -113,5 +113,5 @@ Discrete Data. \emph{Statistics in Biopharmaceutical Research}, \emph{12}(1),
 117-128. \doi{10.1080/19466315.2019.1654912}
 }
 \seealso{
-\code{\link[=discrete_FWER]{discrete_FWER()}}, \code{\link[=DBonf]{DBonf()}}, \code{\link[=DInd]{DInd()}}
+\code{\link[=discrete_FWER]{discrete_FWER()}}, \code{\link[=DBonf]{DBonf()}}, \code{\link[=DSidak]{DSidak()}}, \code{\link[=DHoch]{DHoch()}}
 }
