@@ -1,8 +1,8 @@
 Package: DiscreteFWER
 Type: Package
 Title: FWER-Based Multiple Testing Procedures with Adaptation for Discrete Tests
-Version: 0.0.1-241116
-Date: 2024-11-16
+Version: 0.0.1-241119
+Date: 2024-11-19
 Authors@R: c(
     person("Sebastian", "Döhler", role = c("aut", "ctb"),
            email = "sebastian.doehler@h-da.de",
@@ -17,7 +17,8 @@ License: GPL (>= 2)
 Language: en-GB
 Encoding: UTF-8
 Depends: R (>= 4.0)
-Imports: Rcpp (>= 1.0.13), DiscreteTests (>= 0.2.1), lifecycle, checkmate
+Imports: Rcpp (>= 1.0.13), DiscreteTests (>= 0.2.1), checkmate, 
+  DiscreteFDR (>= 2.0.0)
 LinkingTo: Rcpp, RcppArmadillo
 Suggests: DiscreteDatasets
 URL: https://github.com/DISOhda/DiscreteFWER
