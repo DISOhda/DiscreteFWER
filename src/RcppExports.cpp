@@ -87,16 +87,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _DiscreteFWER_rcpp_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_DiscreteFWER_kernel_DFWER_single_fast", (DL_FUNC) &_DiscreteFWER_kernel_DFWER_single_fast, 4},
@@ -104,7 +94,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_DiscreteFWER_kernel_DFWER_sd_fast", (DL_FUNC) &_DiscreteFWER_kernel_DFWER_sd_fast, 4},
     {"_DiscreteFWER_kernel_DFWER_sd_crit", (DL_FUNC) &_DiscreteFWER_kernel_DFWER_sd_crit, 6},
     {"_DiscreteFWER_kernel_DFWER_sd_crit2", (DL_FUNC) &_DiscreteFWER_kernel_DFWER_sd_crit2, 6},
-    {"_DiscreteFWER_rcpp_hello_world", (DL_FUNC) &_DiscreteFWER_rcpp_hello_world, 0},
     {NULL, NULL, 0}
 };
 

@@ -3,6 +3,8 @@
 
 #' @name kernel
 #' 
+#' @keywords internal
+#' 
 #' @title
 #' Kernel Functions
 #' 
@@ -102,9 +104,5 @@ kernel_DFWER_sd_crit <- function(pCDFlist, support, sorted_pv, alpha = 0.05, ind
 
 kernel_DFWER_sd_crit2 <- function(pCDFlist, support, sorted_pv, alpha, independent, pCDFindices) {
     .Call('_DiscreteFWER_kernel_DFWER_sd_crit2', PACKAGE = 'DiscreteFWER', pCDFlist, support, sorted_pv, alpha, independent, pCDFindices)
-}
-
-rcpp_hello_world <- function() {
-    .Call('_DiscreteFWER_rcpp_hello_world', PACKAGE = 'DiscreteFWER')
 }
 
