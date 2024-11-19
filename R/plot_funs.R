@@ -216,6 +216,12 @@ plot.DiscreteFWER <- function(
   lst$col <- "NA"
   do.call(plot, lst)
   
+  # plot critical values (if present and plotting is requested by the user)
+  if(exists('Critical_values', where = x) && type_crit != 'n'){
+    lines(x$Critical_values, col = col[3], lwd = lwd[3], pch = pch[3],
+          type = type_crit, cex = cex[3], ...)
+  }
+  
   # plot accepted p-values
   if(select) {
     idx <- which(!(x$Select$Pvalues %in% x$Rejected))
@@ -239,12 +245,6 @@ plot.DiscreteFWER <- function(
     y_rej <- if(select) sort(x$Select$Scaled[-idx]) else sort(x$Rejected)
     points(seq_len(x$Num_rejected), y_rej, col = col[1], pch = pch[1],
            lwd = lwd[1], cex = cex[1], ...)
-  }
-  
-  # plot critical values (if present and plotting is requested by the user)
-  if(exists('Critical_values', where = x) && type_crit != 'n'){
-    lines(x$Critical_values, col = col[3], lwd = lwd[3], pch = pch[3],
-          type = type_crit, cex = cex[3], ...)
   }
   
   # plot legend
