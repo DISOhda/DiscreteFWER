@@ -1,16 +1,26 @@
 #' @title
 #' FWER-Based Multiple Testing Procedures with Adaptation for Discrete Tests
-#' 
-#' @description
-#' This package implements the \[d-Bonf\], \[sd-d-Bonf\] and \[d-Ind\]
-#' procedures for discrete tests (see References).
 #'
 #' @docType package
 #' @importFrom Rcpp evalCpp
 #' @useDynLib DiscreteFWER
 #' 
+#' @description
+#' This package implements adaptions for discrete tests of the Bonferroni, Holm,
+#' Hochberg and Šidák procedures. 
+#' 
 #' @details
-#' Yet to come.
+#' The main function [`discrete_FWER()`] makes all four procedures available to
+#' the user. [`DBonf()`], [`DHolm()`], [`DHoch()`] and [`DSidak()`] are wrapper
+#' functions for it that allow to call them directly. Their main parameters are
+#' either a [`DiscreteTestResults`][DiscreteTests::DiscreteTestResults] object
+#' from package [DiscreteTests][DiscreteTests::DiscreteTests-package] or a
+#' vector of raw observed p-values and a list of whose elements are the discrete
+#' supports of the CDFs of the p-values.
+#' 
+#' The function [`direct_discrete_FWER()`]is a wrapper for
+#' [`DiscreteFDR::generate.pvalues()`] and [`discrete_FWER()`], which allows to
+#' apply discrete procedures directly to data.
 #' 
 #' @references
 #' Döhler, S. (2010). Validation of credit default probabilities using
@@ -22,8 +32,3 @@
 #'   117-128. \doi{10.1080/19466315.2019.1654912}
 #' 
 "_PACKAGE"
-
-## usethis namespace: start
-#' @importFrom lifecycle deprecated
-## usethis namespace: end
-NULL
