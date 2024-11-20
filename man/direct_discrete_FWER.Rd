@@ -26,6 +26,8 @@ direct_discrete_FWER(
 
 \item{alpha}{single real number strictly between 0 and 1 indicating the target FWER level.}
 
+\item{independence}{single boolean specifying whether the \eqn{p}-values are statistically independent or not.}
+
 \item{single_step}{single boolean specifying whether to perform a single-step (\code{TRUE}) or step-down (\code{FALSE}; the default) procedure.}
 
 \item{critical_values}{single boolean specifying whether critical constants are to be computed.}
