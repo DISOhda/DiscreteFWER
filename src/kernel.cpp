@@ -1,10 +1,10 @@
 #include "kernel.h"
 
-NumericVector kernel_DFWER_single_fast(
-  const List &pCDFlist,
-  const NumericVector &pvalues,
+NumericVector kernel_DFWER_singlestep_fast(
+  const List& pCDFlist,
+  const NumericVector& pvalues,
   const bool independence,
-  const Nullable<IntegerVector> &pCDFcounts
+  const Nullable<IntegerVector>& pCDFcounts
 ) {
   // Number of p-values
   int numValues = pvalues.length();
@@ -53,13 +53,13 @@ NumericVector kernel_DFWER_single_fast(
   return pval_transf;
 }
 
-List kernel_DFWER_single_crit(
-  const List &pCDFlist,
-  const NumericVector &support,
-  const NumericVector &sorted_pv,
+List kernel_DFWER_singlestep_crit(
+  const List& pCDFlist,
+  const NumericVector& support,
+  const NumericVector& sorted_pv,
   const double alpha,
   const bool independence,
-  const Nullable<IntegerVector> &pCDFcounts
+  const Nullable<IntegerVector>& pCDFcounts
 ) {
   // number of tests
   int numTests = sorted_pv.length();
@@ -110,11 +110,11 @@ List kernel_DFWER_single_crit(
   return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
 }
 
-NumericVector kernel_DFWER_multi_fast(
-  const List &pCDFlist,
-  const NumericVector &sorted_pv,
+NumericVector kernel_DFWER_stepwise_fast(
+  const List& pCDFlist,
+  const NumericVector& sorted_pv,
   const bool independence,
-  const Nullable<List> &pCDFindices
+  const Nullable<List>& pCDFindices
 ) {
   // number of tests
   int numTests = sorted_pv.length();
@@ -186,13 +186,13 @@ NumericVector kernel_DFWER_multi_fast(
   return pval_transf;
 }
 
-List kernel_DFWER_multi_crit(
-    const List &pCDFlist,
-    const NumericVector &support,
-    const NumericVector &sorted_pv,
+List kernel_DFWER_stepwise_crit(
+    const List& pCDFlist,
+    const NumericVector& support,
+    const NumericVector& sorted_pv,
     const double alpha,
     const bool independence,
-    const Nullable<List> &pCDFindices
+    const Nullable<List>& pCDFindices
 ) {
   // number of tests
   int numTests = sorted_pv.length();
@@ -388,8 +388,8 @@ List kernel_DFWER_multi_crit(
           //  ? 1 - std::exp(-pval_sums[idx_transf])
           //  : pval_sums[idx_transf];
           pval_transf[i] = independence
-            ? pval_sum_last
-            : pval_sums[idx_transf];
+            ? std::min<double>(1.0, pval_sum_last)
+            : std::min<double>(1.0, pval_sums[idx_transf]);
       }
       
       // go to next critical values
@@ -397,7 +397,7 @@ List kernel_DFWER_multi_crit(
     }
   }
   
-  if(independence) {
+  /*if(independence) {
     pval_transf[numTests - 1] = std::min<double>(1.0, pval_transf[numTests - 1]);
     for(int i = numTests - 2; i >= 0; i--)
       pval_transf[i] = std::min<double>(pval_transf[i], pval_transf[i + 1]);
@@ -405,7 +405,7 @@ List kernel_DFWER_multi_crit(
     pval_transf[0] = std::min<double>(1.0, pval_transf[0]);
     for(int i = 1; i < numTests; i++)
       pval_transf[i] = std::max<double>(pval_transf[i - 1], std::min<double>(1.0, pval_transf[i]));
-  }
+  }*/
   
   // garbage collection
   delete[] CDFcounts_running;
@@ -417,9 +417,9 @@ List kernel_DFWER_multi_crit(
   // output results
   return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
 }
-
+/*
 // [[Rcpp::export]]
-List kernel_DFWER_multi_crit2(
+List kernel_DFWER_stepwise_crit2(
     const List &pCDFlist,
     const NumericVector &support,
     const NumericVector &sorted_pv,
@@ -647,3 +647,4 @@ List kernel_DFWER_multi_crit2(
   // output results
   return List::create(Named("crit_consts") = crit, Named("pval_transf") = pval_transf);
 }
+*/

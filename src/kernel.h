@@ -49,55 +49,55 @@
 //'                       equal.
 //' 
 //' @return
-//' For `kernel_DFWER_fast()` a vector of transformed p-values is returned.
-//' `kernel_DFWER_crit` returns a list with critical constants (`$crit.consts`)
-//' and transformed p-values (`$pval.transf`).
+//' For `kernel_DFWER_singlestep_fast()` and `kernel_DFWER_stepwise_fast()` a
+//' vector of transformed p-values is returned. `kernel_DFWER_singlestep_crit`
+//' and `kernel_DFWER_stepwise_crit` return a list with critical constants
+//' (`$crit_consts`) and adjusted p-values (`$pval_transf`).
 //' 
 //' @seealso
-//' [`discrete.FWER()`], [`direct.discrete.FWER()`]
+//' [`discrete_FWER()`], [`direct_discrete_FWER()`]
 //' 
 //' @template example
 //' @examples
 //' alpha <- 0.05
 //' 
-//' \dontrun{
-//' # If not searching for critical constants, we use only the observed p-values
-//' sorted.pvals <- sort(raw.pvalues)
-//' y.dBonf.fast <- DiscreteFWER:::kernel_DFWER_fast(pCDFlist, sorted.pvals)
-//' y.dInd.fast  <- DiscreteFWER:::kernel_DFWER_fast(pCDFlist, sorted.pvals, TRUE)
-//' # transformed values
-//' y.dBonf.fast
-//' y.dInd.fast
+//' //' # If not searching for critical constants, we only get the adjusted p-values
+//' sorted_pvals <- sort(raw_pvalues)
+//' y_dBonf_fast <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals)
+//' y_dSid_fast  <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals, TRUE)
+//' # Adjusted values
+//' y_dBonf_fast
+//' y_dSid_fast
 //' 
-//' # compute transformed support
-//' support      <- sort(unique(unlist(pCDFlist)))
-//' y.dBonf.crit <- DiscreteFWER:::kernel_DFWER_crit(pCDFlist, support, sorted.pvals, alpha)
-//' y.dInd.crit  <- DiscreteFWER:::kernel_DFWER_crit(pCDFlist, support, sorted.pvals, alpha, TRUE)
+//' # Compute transformed support
+//' support      <- unique(sort(unlist(pCDFlist)))
+//' y_dBonf_crit <- DiscreteFWER:::kernel_DFWER_crit(pCDFlist, support, sorted_pvals, alpha)
+//' y_dSid_crit  <- DiscreteFWER:::kernel_DFWER_crit(pCDFlist, support, sorted_pvals, alpha, TRUE)
 //' # critical constants
-//' y.dBonf.crit$crit.consts
-//' y.dInd.crit$crit.consts
-//' # Transformed p-values
-//' y.dBonf.crit$pval.transf
-//' y.dInd.crit$pval.transf
-//' }
+//' y_dBonf_crit$crit_consts
+//' y_dSid_crit$crit_consts
+//' # Adjusted p-values
+//' y_dBonf_crit$pval_transf
+//' y_dSid_crit$pval_transf
+//' 
 //'
 
 ///' @export
 //' @rdname kernel
 // [[Rcpp::export]]
-NumericVector kernel_DFWER_single_fast(const List &pCDFlist, const NumericVector &pvalues, const bool independence = false, const Nullable<IntegerVector> &pCDFcounts = R_NilValue);
+NumericVector kernel_DFWER_singlestep_fast(const List& pCDFlist, const NumericVector& pvalues, const bool independence = false, const Nullable<IntegerVector>& pCDFcounts = R_NilValue);
 
 ///' @export
 //' @rdname kernel
 // [[Rcpp::export]]
-List kernel_DFWER_single_crit(const List &pCDFlist, const NumericVector &support, const NumericVector &sorted_pv, const double alpha = 0.05, const bool independence = false, const Nullable<IntegerVector> &pCDFcounts = R_NilValue);
+List kernel_DFWER_singlestep_crit(const List& pCDFlist, const NumericVector& support, const NumericVector& sorted_pv, const double alpha = 0.05, const bool independence = false, const Nullable<IntegerVector>& pCDFcounts = R_NilValue);
 
 ///' @export
 //' @rdname kernel
 // [[Rcpp::export]]
-NumericVector kernel_DFWER_multi_fast(const List &pCDFlist, const NumericVector &sorted_pv, const bool independence = false, const Nullable<List> &pCDFindices = R_NilValue);
+NumericVector kernel_DFWER_stepwise_fast(const List& pCDFlist, const NumericVector& sorted_pv, const bool independence = false, const Nullable<List>& pCDFindices = R_NilValue);
 
 ///' @export
 //' @rdname kernel
 // [[Rcpp::export]]
-List kernel_DFWER_multi_crit(const List &pCDFlist, const NumericVector &support, const NumericVector &sorted_pv, const double alpha = 0.05, const bool independence = false, const Nullable<List> &pCDFindices = R_NilValue);
+List kernel_DFWER_stepwise_crit(const List& pCDFlist, const NumericVector& support, const NumericVector& sorted_pv, const double alpha = 0.05, const bool independence = false, const Nullable<List>& pCDFindices = R_NilValue);
