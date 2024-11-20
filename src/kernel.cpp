@@ -84,7 +84,7 @@ List kernel_DFWER_singlestep_crit(
   //NumericVector pv_list = support[Range(0, index_max)];
   
   // transform support with fast kernel
-  NumericVector support_transf = kernel_DFWER_single_fast(
+  NumericVector support_transf = kernel_DFWER_singlestep_fast(
     pCDFlist, support, independence, CDFcounts
   );
   
@@ -226,7 +226,7 @@ List kernel_DFWER_stepwise_crit(
     }
   }
   // threshold
-  double beta = alpha;//independence ? -std::log(1 - alpha) : alpha;
+  //double beta = independence ? -std::log(1 - alpha) : alpha;
   
   // vector to store transformed p-values
   NumericVector pval_transf;
@@ -252,7 +252,7 @@ List kernel_DFWER_stepwise_crit(
       pval_transf += CDFcounts[i] * f_eval;
   }
   
-  int idx_pval = binary_search(pval_transf, beta, limit + 1);
+  int idx_pval = binary_search(pval_transf, alpha, limit + 1);
   pv_list = pv_list[Range(idx_pval, limit)];
   double crit_1 = pv_list[0];
   pv_list = sort_combine(pv_list, sorted_pv);
@@ -315,7 +315,7 @@ List kernel_DFWER_stepwise_crit(
       idx_pval = numValues - 1;
       while(
         idx_pval > 0 && 
-          (pval_sums[idx_pval] > beta || !supported[idx_pval])
+          (pval_sums[idx_pval] > alpha || !supported[idx_pval])
       )
         idx_pval--;
       
@@ -327,7 +327,7 @@ List kernel_DFWER_stepwise_crit(
       //  pval_transf[idx_crit] = independence 
       //    ? 1 - std::exp(-pval_sums[idx_transf])
       //    : pval_sums[idx_transf];
-        pval_transf[idx_crit] = pval_sums[idx_transf];
+        pval_transf[idx_crit] = std::min<double>(1.0, pval_sums[idx_transf]);
       
       // go to next critical value
       idx_crit--;
@@ -374,7 +374,7 @@ List kernel_DFWER_stepwise_crit(
       idx_pval = numValues - 1;
       while(
         idx_pval > 0 && 
-          (pval_sums[idx_pval] > beta || !supported[idx_pval])
+          (pval_sums[idx_pval] > alpha || !supported[idx_pval])
       )
         idx_pval--;
       

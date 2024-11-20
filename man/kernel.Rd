@@ -2,20 +2,20 @@
 % Please edit documentation in R/RcppExports.R
 \name{kernel}
 \alias{kernel}
-\alias{kernel_DFWER_single_fast}
-\alias{kernel_DFWER_single_crit}
-\alias{kernel_DFWER_multi_fast}
-\alias{kernel_DFWER_multi_crit}
+\alias{kernel_DFWER_singlestep_fast}
+\alias{kernel_DFWER_singlestep_crit}
+\alias{kernel_DFWER_stepwise_fast}
+\alias{kernel_DFWER_stepwise_crit}
 \title{Kernel Functions}
 \usage{
-kernel_DFWER_single_fast(
+kernel_DFWER_singlestep_fast(
   pCDFlist,
   pvalues,
   independence = FALSE,
   pCDFcounts = NULL
 )
 
-kernel_DFWER_single_crit(
+kernel_DFWER_singlestep_crit(
   pCDFlist,
   support,
   sorted_pv,
@@ -24,14 +24,14 @@ kernel_DFWER_single_crit(
   pCDFcounts = NULL
 )
 
-kernel_DFWER_multi_fast(
+kernel_DFWER_stepwise_fast(
   pCDFlist,
   sorted_pv,
   independence = FALSE,
   pCDFindices = NULL
 )
 
-kernel_DFWER_multi_crit(
+kernel_DFWER_stepwise_crit(
   pCDFlist,
   support,
   sorted_pv,
@@ -78,13 +78,14 @@ the lengths of \code{pCDFlist} and \code{sorted_pv} must be
 equal.}
 }
 \value{
-For \code{kernel_DFWER_fast()} a vector of transformed p-values is returned.
-\code{kernel_DFWER_crit} returns a list with critical constants (\verb{$crit.consts})
-and transformed p-values (\verb{$pval.transf}).
+For \code{kernel_DFWER_singlestep_fast()} and \code{kernel_DFWER_stepwise_fast()} a
+vector of transformed p-values is returned. \code{kernel_DFWER_singlestep_crit}
+and \code{kernel_DFWER_stepwise_crit} return a list with critical constants
+(\verb{$crit_consts}) and adjusted p-values (\verb{$pval_transf}).
 }
 \description{
 Kernel functions that transform observed p-values or their support according
-to a discrete FWER approach. The outputs are used by \code{\link[=discrete.FWER]{discrete.FWER()}}.
+to a discrete FWER approach. The outputs are used by \code{\link[=discrete_FWER]{discrete_FWER()}}.
 \code{kernel_DFWER_fast}, computes the transformed \eqn{p}-values, while
 \code{kernel_DFWER_crit} additionally computes and returns the critical
 constants. The end user should not use these functions directly, as they are
@@ -109,29 +110,29 @@ pCDFlist <- test_results$get_pvalue_supports()
 
 alpha <- 0.05
 
-\dontrun{
-# If not searching for critical constants, we use only the observed p-values
-sorted.pvals <- sort(raw.pvalues)
-y.dBonf.fast <- DiscreteFWER:::kernel_DFWER_fast(pCDFlist, sorted.pvals)
-y.dInd.fast  <- DiscreteFWER:::kernel_DFWER_fast(pCDFlist, sorted.pvals, TRUE)
-# transformed values
-y.dBonf.fast
-y.dInd.fast
+# If not searching for critical constants, we only get the adjusted p-values
+sorted_pvals <- sort(raw_pvalues)
+y_dBonf_fast <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals)
+y_dSid_fast  <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals, TRUE)
+# Adjusted values
+y_dBonf_fast
+y_dSid_fast
 
-# compute transformed support
-support      <- sort(unique(unlist(pCDFlist)))
-y.dBonf.crit <- DiscreteFWER:::kernel_DFWER_crit(pCDFlist, support, sorted.pvals, alpha)
-y.dInd.crit  <- DiscreteFWER:::kernel_DFWER_crit(pCDFlist, support, sorted.pvals, alpha, TRUE)
+# Compute transformed support
+support      <- unique(sort(unlist(pCDFlist)))
+y_dBonf_crit <- DiscreteFWER:::kernel_DFWER_stepwise_crit(pCDFlist, support, sorted_pvals,
+                                                          alpha)
+y_dSid_crit  <- DiscreteFWER:::kernel_DFWER_stepwise_crit(pCDFlist, support, sorted_pvals,
+                                                          alpha, TRUE)
 # critical constants
-y.dBonf.crit$crit.consts
-y.dInd.crit$crit.consts
-# Transformed p-values
-y.dBonf.crit$pval.transf
-y.dInd.crit$pval.transf
-}
+y_dBonf_crit$crit_consts
+y_dSid_crit$crit_consts
+# Adjusted p-values
+y_dBonf_crit$pval_transf
+y_dSid_crit$pval_transf
 
 }
 \seealso{
-\code{\link[=discrete.FWER]{discrete.FWER()}}, \code{\link[=direct.discrete.FWER]{direct.discrete.FWER()}}
+\code{\link[=discrete_FWER]{discrete_FWER()}}, \code{\link[=direct_discrete_FWER]{direct_discrete_FWER()}}
 }
 \keyword{internal}

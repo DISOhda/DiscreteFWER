@@ -10,7 +10,7 @@
 //' @description
 //'
 //' Kernel functions that transform observed p-values or their support according
-//' to a discrete FWER approach. The outputs are used by [`discrete.FWER()`].
+//' to a discrete FWER approach. The outputs are used by [`discrete_FWER()`].
 //' `kernel_DFWER_fast`, computes the transformed \eqn{p}-values, while
 //' `kernel_DFWER_crit` additionally computes and returns the critical
 //' constants. The end user should not use these functions directly, as they are
@@ -61,7 +61,7 @@
 //' @examples
 //' alpha <- 0.05
 //' 
-//' //' # If not searching for critical constants, we only get the adjusted p-values
+//' # If not searching for critical constants, we only get the adjusted p-values
 //' sorted_pvals <- sort(raw_pvalues)
 //' y_dBonf_fast <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals)
 //' y_dSid_fast  <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals, TRUE)
@@ -71,8 +71,10 @@
 //' 
 //' # Compute transformed support
 //' support      <- unique(sort(unlist(pCDFlist)))
-//' y_dBonf_crit <- DiscreteFWER:::kernel_DFWER_crit(pCDFlist, support, sorted_pvals, alpha)
-//' y_dSid_crit  <- DiscreteFWER:::kernel_DFWER_crit(pCDFlist, support, sorted_pvals, alpha, TRUE)
+//' y_dBonf_crit <- DiscreteFWER:::kernel_DFWER_stepwise_crit(pCDFlist, support, sorted_pvals,
+//'                                                           alpha)
+//' y_dSid_crit  <- DiscreteFWER:::kernel_DFWER_stepwise_crit(pCDFlist, support, sorted_pvals,
+//'                                                           alpha, TRUE)
 //' # critical constants
 //' y_dBonf_crit$crit_consts
 //' y_dSid_crit$crit_consts
@@ -80,7 +82,6 @@
 //' y_dBonf_crit$pval_transf
 //' y_dSid_crit$pval_transf
 //' 
-//'
 
 ///' @export
 //' @rdname kernel
