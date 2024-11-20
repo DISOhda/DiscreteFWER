@@ -6,11 +6,21 @@
 \alias{DiscreteFWER-package}
 \title{FWER-Based Multiple Testing Procedures with Adaptation for Discrete Tests}
 \description{
-This package implements the [d-Bonf], [sd-d-Bonf] and [d-Ind]
-procedures for discrete tests (see References).
+This package implements adaptions for discrete tests of the Bonferroni, Holm,
+Hochberg and Šidák procedures.
 }
 \details{
-Yet to come.
+The main function \code{\link[=discrete_FWER]{discrete_FWER()}} makes all four procedures available to
+the user. \code{\link[=DBonf]{DBonf()}}, \code{\link[=DHolm]{DHolm()}}, \code{\link[=DHoch]{DHoch()}} and \code{\link[=DSidak]{DSidak()}} are wrapper
+functions for it that allow to call them directly. Their main parameters are
+either a \code{\link[DiscreteTests:DiscreteTestResults]{DiscreteTestResults}} object
+from package \link[DiscreteTests:DiscreteTests-package]{DiscreteTests} or a
+vector of raw observed p-values and a list of whose elements are the discrete
+supports of the CDFs of the p-values.
+
+The function \code{\link[=direct_discrete_FWER]{direct_discrete_FWER()}}is a wrapper for
+\code{\link[DiscreteFDR:generate.pvalues]{DiscreteFDR::generate.pvalues()}} and \code{\link[=discrete_FWER]{discrete_FWER()}}, which allows to
+apply discrete procedures directly to data.
 }
 \references{
 Döhler, S. (2010). Validation of credit default probabilities using
