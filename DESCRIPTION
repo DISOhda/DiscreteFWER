@@ -11,8 +11,16 @@ Authors@R: c(
            email = "diso.fbmn@h-da.de",
            comment = c(ORCID = "0009-0001-6856-6938"))
   )
-Description: One paragraph description of what the package does as one or more
-  full sentences.
+Description: Implementations of adaptations of the Bonferroni, Holm, Hochberg
+    and Šidák multiple testing procedures for discrete tests as described in the
+    papers Döhler (2010) "Validation of credit default probabilities using
+    multiple-testing procedures" <doi:10.21314/JRMV.2010.062> and Zhu & Guo
+    (2019) "Family-Wise Error Rate Controlling Procedures for Discrete Data"
+    <doi:10.1080/19466315.2019.1654912>. The main procedures of this package
+    take as input the results of a test procedure from package 'DiscreteTests'
+    or a set of observed p-values and their discrete support under their nulls.
+    A shortcut function to apply discrete procedures directly to data is also
+    provided.
 License: GPL (>= 2)
 Language: en-GB
 Encoding: UTF-8
