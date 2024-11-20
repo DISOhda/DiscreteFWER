@@ -17,13 +17,13 @@
 #' @details
 #' Well computed raw p-values should already belong to their respective CDF
 #' support. So this function is called at the beginning of
-#' [`discrete.FWER.default()`] and its wrappers, just in case raw p-values may
+#' [`discrete_FWER.default()`] and its wrappers, just in case raw p-values may
 #' be biased.
 #'
 #' For each raw p-value that needs to be rounded, a warning is issued.
 #'
 #' @seealso
-#' [`discrete.FWER()`]
+#' [`discrete_FWER()`]
 #'
 #' @templateVar test_results TRUE
 #' @templateVar pCDFlist TRUE

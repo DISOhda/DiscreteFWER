@@ -18,7 +18,7 @@ discrete_fwer_int <- function(
   input_data <- list()
   input_data$Method <- if(independence) {
     # independence, i.e. Sidak/Hochberg
-    paste("Discrete", ifelse(single_step, "Šidák", "Hochberg"), "procedure")
+    paste("Discrete", ifelse(single_step, "Sidak", "Hochberg"), "procedure")
   } else {
     # not independence, i.e. Bonferroni/Holm
     paste("Discrete", ifelse(single_step, "Bonferroni", "Holm"), "procedure")
@@ -112,13 +112,13 @@ discrete_fwer_int <- function(
   #--------------------------------------------
   if(crit_consts) {
     if(single_step) {
-      res <- kernel_DFWER_single_crit(
+      res <- kernel_DFWER_singlestep_crit(
         pCDFlist, support, sorted_pvals, alpha, independence, pCDFlist_counts
       )
       crit_constants <- res$crit_consts
       idx_rej <- which(sorted_pvals <= crit_constants)
     } else {
-      res <- kernel_DFWER_multi_crit(
+      res <- kernel_DFWER_stepwise_crit(
         pCDFlist, support, sorted_pvals, alpha, independence, sorted_pCDFlist_indices
       )
       crit_constants <- res$crit_consts
@@ -128,12 +128,12 @@ discrete_fwer_int <- function(
     }
   } else {
     if(single_step) {
-      res <- kernel_DFWER_single_fast(
+      res <- kernel_DFWER_singlestep_fast(
         pCDFlist, sorted_pvals, independence, pCDFlist_counts
       )
       idx_rej <- which(res <= alpha)
     } else {
-      res <- kernel_DFWER_multi_fast(
+      res <- kernel_DFWER_stepwise_fast(
         pCDFlist, sorted_pvals, independence, sorted_pCDFlist_indices
       )
       idx_rej <- if(independence) 
@@ -184,12 +184,6 @@ discrete_fwer_int <- function(
   
   # adjusted p-values
   pv_adj <- if(crit_consts) res$pval_transf else res
-  # compute adjusted p-values
-  #pv_adj <- pmin(res, 1)
-  #if(!single_step)
-  #  if(independence) 
-  #    pv_adj <- rev(cummin(rev(pv_adj))) else
-  #      pv_adj <- cummax(pv_adj)
   # add adjusted p-values to output list
   output$Adjusted          <- numeric(n)
   output$Adjusted[select]  <- pv_adj[org_ord]

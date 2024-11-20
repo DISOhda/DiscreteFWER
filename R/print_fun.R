@@ -7,9 +7,9 @@
 #' Prints the results of discrete FWER analysis, stored in a `DiscreteFWER`
 #' S3 class object.
 #' 
-#' @param x          object of class `DiscreteFWER`.
-#' @param ...        further arguments to be passed to or from other methods.
-#'                   They are ignored in this function.
+#' @param x     object of class `DiscreteFWER`.
+#' @param ...   further arguments to be passed to or from other methods. They
+#'              are ignored in this function.
 #' 
 #' @return
 #' The respective input object is invisibly returned via `invisible(x)`. 
@@ -41,7 +41,7 @@ print.DiscreteFWER <- function(x, ...){
   if(x$Data$Independence) {
     if(x$Data$Single_step) {
       k_orig <- sum(x$Data$Raw_pvalues <= 1 - exp(log(1 - x$Data$FWER_level)/n))
-      orig <- "Šidák"
+      orig <- "Sidak"
     } else {
       k_orig <- sum(p.adjust(x$Data$Raw_pvalues, "hochberg") <= x$Data$FWER_level)
       orig <- "Hochberg"

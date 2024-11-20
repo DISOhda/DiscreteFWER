@@ -29,7 +29,7 @@ respective CDFs (as in function \code{p.discrete.adjust()} of package
 \details{
 Well computed raw p-values should already belong to their respective CDF
 support. So this function is called at the beginning of
-\code{\link[=discrete.FWER.default]{discrete.FWER.default()}} and its wrappers, just in case raw p-values may
+\code{\link[=discrete_FWER.default]{discrete_FWER.default()}} and its wrappers, just in case raw p-values may
 be biased.
 
 For each raw p-value that needs to be rounded, a warning is issued.
@@ -45,6 +45,6 @@ match_pvals(toyRaw2, toyList)
 
 }
 \seealso{
-\code{\link[=discrete.FWER]{discrete.FWER()}}
+\code{\link[=discrete_FWER]{discrete_FWER()}}
 }
 \keyword{internal}

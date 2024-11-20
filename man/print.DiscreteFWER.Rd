@@ -9,8 +9,8 @@
 \arguments{
 \item{x}{object of class \code{DiscreteFWER}.}
 
-\item{...}{further arguments to be passed to or from other methods.
-They are ignored in this function.}
+\item{...}{further arguments to be passed to or from other methods. They
+are ignored in this function.}
 }
 \value{
 The respective input object is invisibly returned via \code{invisible(x)}.
