@@ -23,18 +23,18 @@
 #'  
 #' Depending on the choices of `independence` and `single_step`, one of the
 #' following procedures, is applied:
-#' \tabular{lcc}{
-#'                    \tab single-step \tab stepwise \cr
-#'   independent      \tab    Šidák    \tab Hochberg \cr 
-#'   not independent  \tab  Bonferroni \tab   Holm   \cr
-#' }
+#' 
+#' |                 | single-step | stepwise |
+#' |:----------------|:-----------:|:--------:|
+#' | independent     |    Šidák    | Hochberg |
+#' | not independent |  Bonferroni |   Holm   |
 #' 
 #' Each procedure is available by its own shortcut function:
-#' \tabular{lcc}{
-#'                    \tab single-step \tab  stepwise \cr
-#'   independent      \tab  `DSidak()` \tab `DHoch()` \cr 
-#'   not independent  \tab  `DBonf()`  \tab `DHolm()` \cr
-#' }
+#' 
+#' |                 | single-step |  stepwise |
+#' |:----------------|:-----------:|:---------:|
+#' | independent     |  `DSidak()` | `DHoch()` |
+#' | not independent |  `DBonf()`  | `DHolm()` |
 #' 
 #' @template return
 #' 

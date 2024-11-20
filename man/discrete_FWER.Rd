@@ -85,18 +85,17 @@ reasons. Setting (\code{critical_values = FALSE}) is sufficient for obtaining
 rejection decisions and adjusted \eqn{p}-values.
 
 Depending on the choices of \code{independence} and \code{single_step}, one of the
-following procedures, is applied:
-\tabular{lcc}{
-\tab single-step \tab stepwise \cr
-independent      \tab    Šidák    \tab Hochberg \cr
-not independent  \tab  Bonferroni \tab   Holm   \cr
+following procedures, is applied:\tabular{lcc}{
+    \tab single-step \tab stepwise \cr
+   independent \tab Šidák \tab Hochberg \cr
+   not independent \tab Bonferroni \tab Holm \cr
 }
 
-Each procedure is available by its own shortcut function:
-\tabular{lcc}{
-\tab single-step \tab  stepwise \cr
-independent      \tab  \code{DSidak()} \tab \code{DHoch()} \cr
-not independent  \tab  \code{DBonf()}  \tab \code{DHolm()} \cr
+
+Each procedure is available by its own shortcut function:\tabular{lcc}{
+    \tab single-step \tab stepwise \cr
+   independent \tab \code{DSidak()} \tab \code{DHoch()} \cr
+   not independent \tab \code{DBonf()} \tab \code{DHolm()} \cr
 }
 }
 \examples{
