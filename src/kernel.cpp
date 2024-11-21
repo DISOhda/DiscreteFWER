@@ -337,7 +337,7 @@ List kernel_DFWER_stepwise_crit(
       // largest index of CDFs in "block"
       int max_CDF = 0;
       // index of current CDF
-      int idx_CDF;
+      int idx_CDF = 0;
       // determine counts and largest index
       for(int i = idx_crit - count_pv + 1; i <= idx_crit; i++) {
         idx_CDF = pv2CDFindices[i];
