@@ -120,6 +120,9 @@ hist.DiscreteFWER <- function(
 #'                   defaults to current `par()$cex` setting.
 #' @param ...        further arguments to [`plot.default()`].
 #' 
+#' @return
+#' A plot is created, but no value is returned.
+#' 
 #' @template example
 #' @examples 
 #' DBonf_fast <- DBonferroni(raw_pvalues, pCDFlist)

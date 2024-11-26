@@ -53,6 +53,9 @@ of two elements indicating (x, y) coordinates.}
 
 \item{...}{further arguments to \code{\link[=plot.default]{plot.default()}}.}
 }
+\value{
+A plot is created, but no value is returned.
+}
 \description{
 Plots raw p-values of a \code{DiscreteFWER} object and highlights rejected and
 accepted p-values. If calculated, the critical values are plotted, too.

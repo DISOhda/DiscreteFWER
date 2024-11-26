@@ -20,6 +20,8 @@
 #' @templateVar preprocess_args TRUE
 #' @template param
 #' 
+#' @template return
+#' 
 #' @template example
 #' @examples
 #' DBonf <- direct_discrete_FWER(df, "fisher")
