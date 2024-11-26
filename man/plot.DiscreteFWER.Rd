@@ -55,7 +55,7 @@ of two elements indicating (x, y) coordinates.}
 }
 \description{
 Plots raw p-values of a \code{DiscreteFWER} object and highlights rejected and
-accepted p-values. If present, the critical values are plotted, too.
+accepted p-values. If calculated, the critical values are plotted, too.
 }
 \examples{
 X1 <- c(4, 2, 2, 14, 6, 9, 4, 0, 1)
@@ -67,14 +67,14 @@ Y2 <- N2 - X2
 df <- data.frame(X1, Y1, X2, Y2)
 df
 
-# Construction of the p-values and their supports with Fisher's exact test
+# Computation of p-values and their supports with Fisher's exact test
 library(DiscreteTests)  # for Fisher's exact test
 test_results <- fisher_test_pv(df)
 raw_pvalues <- test_results$get_pvalues()
 pCDFlist <- test_results$get_pvalue_supports()
 
-DBonf_fast <- DBonf(raw_pvalues, pCDFlist)
-DBonf_crit <- DBonf(test_results, critical_values = TRUE)
+DBonf_fast <- DBonferroni(raw_pvalues, pCDFlist)
+DBonf_crit <- DBonferroni(test_results, critical_values = TRUE)
 DHolm_fast <- DHolm(test_results)
 DHolm_crit <- DHolm(raw_pvalues, pCDFlist, critical_values = TRUE)
 

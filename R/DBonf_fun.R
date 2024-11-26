@@ -1,13 +1,13 @@
-#' @name DBonf
+#' @name DBonferroni
 #' 
 #' @title
 #' Discrete Bonferroni Procedure
 #' 
 #' @description 
-#' `DBonf()` is a wrapper function of [`discrete_FWER()`] for computing the
-#' discrete Bonferroni procedure. It simply passes its arguments to
-#' [`discrete_FWER()`] with fixed `independence = FALSE` and
-#' `single_step = TRUE`.
+#' `DBonferroni()` is a wrapper function of [`discrete_FWER()`] for computing
+#' the discrete Bonferroni procedure for tests with an arbitrary dependency
+#' structure. It simply passes its arguments to [`discrete_FWER()`] with fixed
+#' `independence = FALSE` and `single_step = TRUE`.
 #' 
 #' @templateVar test_results TRUE
 #' @templateVar pCDFlist TRUE
@@ -23,7 +23,7 @@
 #' @template return
 #' 
 #' @seealso
-#' [`discrete_FWER()`], [`DHolm()`], [`DSidak()`], [`DHoch()`]
+#' [`discrete_FWER()`], [`DHolm()`], [`DSidak()`], [`DHochberg()`]
 #' 
 #' @references
 #' Döhler, S. (2010). Validation of credit default probabilities using
@@ -36,20 +36,20 @@
 #'  
 #' @template example
 #' @examples
-#' # d-Bonf without critical values; using extracted p-values and supports
-#' DBonf_fast <- DBonf(raw_pvalues, pCDFlist)
-#' summary(DBonf_fast)
+#' # d-Bonferroni without critical values; using extracted p-values and supports
+#' DBonferroni_fast <- DBonferroni(raw_pvalues, pCDFlist)
+#' summary(DBonferroni_fast)
 #' 
-#' # d-Bonf with critical values; using test results object
-#' DBonf_crit <- DBonf(test_results, critical_values = TRUE)
-#' summary(DBonf_crit)
+#' # d-Bonferroni with critical values; using test results object
+#' DBonferroni_crit <- DBonferroni(test_results, critical_values = TRUE)
+#' summary(DBonferroni_crit)
 #' 
 #' @export
-DBonf <- function(test_results, ...) UseMethod("DBonf")
+DBonferroni <- function(test_results, ...) UseMethod("DBonferroni")
 
-#' @rdname DBonf
+#' @rdname DBonferroni
 #' @export
-DBonf.default <- function(
+DBonferroni.default <- function(
     test_results,
     pCDFlist,
     alpha            = 0.05,
@@ -79,9 +79,9 @@ DBonf.default <- function(
   return(out)
 }
 
-#' @rdname DBonf
+#' @rdname DBonferroni
 #' @export
-DBonf.DiscreteTestResults <- function(
+DBonferroni.DiscreteTestResults <- function(
     test_results,
     alpha            = 0.05,
     critical_values  = FALSE,

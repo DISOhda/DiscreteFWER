@@ -1,13 +1,13 @@
-#' @name DHoch
+#' @name DHochberg
 #' 
 #' @title
 #' Discrete Hochberg Procedure
 #' 
 #' @description 
-#' `DHoch()` is a wrapper function of [`discrete_FWER()`] for computing the
-#' discrete Holm procedure for independent or positively correlated discrete
-#' tests. It simply passes its arguments to [`discrete_FWER()`] with fixed
-#' `independence = TRUE` and `single_step = FALSE`.
+#' `DHochberg()` is a wrapper function of [`discrete_FWER()`] for computing the
+#' discrete Hochberg step-up procedure for independent or positively correlated
+#' discrete tests. It simply passes its arguments to [`discrete_FWER()`] with
+#' fixed `independence = TRUE` and `single_step = FALSE`.
 #' 
 #' @templateVar test_results TRUE
 #' @templateVar pCDFlist TRUE
@@ -23,7 +23,7 @@
 #' @template return
 #' 
 #' @seealso
-#' [`discrete_FWER()`], [`DSidak()`], [`DBonf()`], [`DHolm`]
+#' [`discrete_FWER()`], [`DSidak()`], [`DBonferroni()`], [`DHolm`]
 #' 
 #' @references
 #' Zhu, Y., & Guo, W. (2019). Family-Wise Error Rate Controlling Procedures for
@@ -32,20 +32,20 @@
 #'  
 #' @template example
 #' @examples
-#' # d-Hochberg without critical values; using extracted p-values and supports
-#' DHoch_fast <- DHoch(raw_pvalues, pCDFlist)
+#' # d-Hochberg without critical values; using test results object
+#' DHoch_fast <- DHochberg(test_results)
 #' summary(DHoch_fast)
 #' 
-#' # d-Hochberg with critical values; using test results object
-#' DHoch_crit <- DHoch(test_results, critical_values = TRUE)
+#' # d-Hochberg with critical values; using extracted p-values and supports
+#' DHoch_crit <- DHochberg(raw_pvalues, pCDFlist, critical_values = TRUE)
 #' summary(DHoch_crit)
 #' 
 #' @export
-DHoch <- function(test_results, ...) UseMethod("DHoch")
+DHochberg <- function(test_results, ...) UseMethod("DHochberg")
 
-#' @rdname DHoch
+#' @rdname DHochberg
 #' @export
-DHoch.default <- function(
+DHochberg.default <- function(
     test_results,
     pCDFlist,
     alpha            = 0.05,
@@ -75,9 +75,9 @@ DHoch.default <- function(
   return(out)
 }
 
-#' @rdname DHoch
+#' @rdname DHochberg
 #' @export
-DHoch.DiscreteTestResults <- function(
+DHochberg.DiscreteTestResults <- function(
     test_results,
     alpha            = 0.05,
     critical_values  = FALSE,

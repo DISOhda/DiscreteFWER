@@ -88,7 +88,7 @@ hist.DiscreteFWER <- function(
 #'
 #' @description
 #' Plots raw p-values of a `DiscreteFWER` object and highlights rejected and
-#' accepted p-values. If present, the critical values are plotted, too.
+#' accepted p-values. If calculated, the critical values are plotted, too.
 #'
 #' @param x          object of class `DiscreteFWER`.
 #' @param col        numeric or character vector of length 3 indicating the
@@ -122,8 +122,8 @@ hist.DiscreteFWER <- function(
 #' 
 #' @template example
 #' @examples 
-#' DBonf_fast <- DBonf(raw_pvalues, pCDFlist)
-#' DBonf_crit <- DBonf(test_results, critical_values = TRUE)
+#' DBonf_fast <- DBonferroni(raw_pvalues, pCDFlist)
+#' DBonf_crit <- DBonferroni(test_results, critical_values = TRUE)
 #' DHolm_fast <- DHolm(test_results)
 #' DHolm_crit <- DHolm(raw_pvalues, pCDFlist, critical_values = TRUE)
 #' 
