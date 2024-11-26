@@ -1,8 +1,8 @@
 Package: DiscreteFWER
 Type: Package
 Title: FWER-Based Multiple Testing Procedures with Adaptation for Discrete Tests
-Version: 0.0.9
-Date: 2024-11-25
+Version: 1.0.0
+Date: 2024-11-26
 Authors@R: c(
     person("Sebastian", "Döhler", role = c("aut", "ctb"),
            email = "sebastian.doehler@h-da.de",
