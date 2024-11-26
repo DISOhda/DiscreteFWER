@@ -66,15 +66,15 @@ A \code{DiscreteFWER} S3 class object whose elements are:
 }
 \description{
 \code{DHolm()} is a wrapper function of \code{\link[=discrete_FWER]{discrete_FWER()}} for computing the
-discrete Holm procedure for tests with an arbitrary dependency structure. It
-simply passes its arguments to \code{\link[=discrete_FWER]{discrete_FWER()}} with fixed
+discrete Holm step-down procedure for tests with an arbitrary dependency
+structure. It simply passes its arguments to \code{\link[=discrete_FWER]{discrete_FWER()}} with fixed
 \code{independence = FALSE} and \code{single_step = FALSE}.
 }
 \details{
 Computing critical constants (\code{critical_values = TRUE}) requires considerably
 more execution time, especially if the number of unique supports is large.
 We recommend that users should only have them calculated when they need them,
-e.g. for illustrating the rejection area in a plot or other theoretical
+e.g. for illustrating the rejection set in a plot or other theoretical
 reasons. Setting (\code{critical_values = FALSE}) is sufficient for obtaining
 rejection decisions and adjusted \eqn{p}-values.
 }
@@ -88,7 +88,7 @@ Y2 <- N2 - X2
 df <- data.frame(X1, Y1, X2, Y2)
 df
 
-# Construction of the p-values and their supports with Fisher's exact test
+# Computation of p-values and their supports with Fisher's exact test
 library(DiscreteTests)  # for Fisher's exact test
 test_results <- fisher_test_pv(df)
 raw_pvalues <- test_results$get_pvalues()
@@ -113,5 +113,5 @@ Discrete Data. \emph{Statistics in Biopharmaceutical Research}, \emph{12}(1),
 117-128. \doi{10.1080/19466315.2019.1654912}
 }
 \seealso{
-\code{\link[=discrete_FWER]{discrete_FWER()}}, \code{\link[=DBonf]{DBonf()}}, \code{\link[=DSidak]{DSidak()}}, \code{\link[=DHoch]{DHoch()}}
+\code{\link[=discrete_FWER]{discrete_FWER()}}, \code{\link[=DBonferroni]{DBonferroni()}}, \code{\link[=DSidak]{DSidak()}}, \code{\link[=DHochberg]{DHochberg()}}
 }

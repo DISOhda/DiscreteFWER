@@ -5,8 +5,8 @@
 #' 
 #' @description 
 #' `DHolm()` is a wrapper function of [`discrete_FWER()`] for computing the
-#' discrete Holm procedure for tests with an arbitrary dependency structure. It
-#' simply passes its arguments to [`discrete_FWER()`] with fixed
+#' discrete Holm step-down procedure for tests with an arbitrary dependency
+#' structure. It simply passes its arguments to [`discrete_FWER()`] with fixed
 #' `independence = FALSE` and `single_step = FALSE`.
 #' 
 #' @templateVar test_results TRUE
@@ -23,7 +23,7 @@
 #' @template return
 #' 
 #' @seealso
-#' [`discrete_FWER()`], [`DBonf()`], [`DSidak()`], [`DHoch()`]
+#' [`discrete_FWER()`], [`DBonferroni()`], [`DSidak()`], [`DHochberg()`]
 #' 
 #' @references
 #' Döhler, S. (2010). Validation of credit default probabilities using

@@ -7,20 +7,22 @@
 #' 
 #' @description
 #' This package implements adaptions for discrete tests of the Bonferroni, Holm,
-#' Hochberg and Šidák procedures. 
+#' Hochberg and Šidák procedures for control of the family-wise error rate
+#' (FWER). 
 #' 
 #' @details
 #' The main function [`discrete_FWER()`] makes all four procedures available to
-#' the user. [`DBonf()`], [`DHolm()`], [`DHoch()`] and [`DSidak()`] are wrapper
-#' functions for it that allow to call them directly. Their main parameters are
-#' either a [`DiscreteTestResults`][DiscreteTests::DiscreteTestResults] object
-#' from package [DiscreteTests][DiscreteTests::DiscreteTests-package] or a
-#' vector of raw observed p-values and a list of whose elements are the discrete
-#' supports of the CDFs of the p-values.
+#' the user. [`DBonferroni()`], [`DHolm()`], [`DHochberg()`] and [`DSidak()`]
+#' are wrapper functions that enable the user to access them directly. Their
+#' main parameters are either a 
+#' [`DiscreteTestResults`][DiscreteTests::DiscreteTestResults] object from
+#' package [DiscreteTests][DiscreteTests::DiscreteTests-package] or a vector of
+#' raw observed p-values and a list whose elements are the discrete supports
+#' of the CDFs of the \eqn{p}-values.
 #' 
 #' The function [`direct_discrete_FWER()`]is a wrapper for
-#' [`DiscreteFDR::generate.pvalues()`] and [`discrete_FWER()`], which allows to
-#' apply discrete procedures directly to data.
+#' [`DiscreteFDR::generate.pvalues()`] and [`discrete_FWER()`], which applies
+#' discrete procedures directly to data.
 #' 
 #' @references
 #' Döhler, S. (2010). Validation of credit default probabilities using

@@ -55,7 +55,7 @@ Y2 <- N2 - X2
 df <- data.frame(X1, Y1, X2, Y2)
 df
 
-# Construction of the p-values and their supports with Fisher's exact test
+# Computation of p-values and their supports with Fisher's exact test
 library(DiscreteTests)  # for Fisher's exact test
 test_results <- fisher_test_pv(df)
 raw_pvalues <- test_results$get_pvalues()
@@ -67,10 +67,12 @@ summary(DBonf)
 DHolm <- direct_discrete_FWER(df, "fisher_test_pv", single_step = FALSE)
 summary(DHolm)
 
-DBonf_bin <- direct_discrete_FWER(X1 + X2, "binom_test_pv", list(n = N1 + N2, p = 0.05))
+DBonf_bin <- direct_discrete_FWER(X1 + X2, "binom_test_pv", 
+                                  list(n = N1 + N2, p = 0.05))
 summary(DBonf_bin)
 
-DHolm_bin <- direct_discrete_FWER(X1 + X2, "binom", list(n = N1 + N2, p = 0.05),
+DHolm_bin <- direct_discrete_FWER(X1 + X2, "binom", 
+                                  list(n = N1 + N2, p = 0.05),
                                   single_step = TRUE)
 summary(DHolm_bin)
 

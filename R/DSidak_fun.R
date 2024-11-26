@@ -23,7 +23,7 @@
 #' @template return
 #' 
 #' @seealso
-#' [`discrete_FWER()`], [`DHoch()`], [`DBonf()`], [`DHolm()`]
+#' [`discrete_FWER()`], [`DHochberg()`], [`DBonferroni()`], [`DHolm()`]
 #' 
 #' @references
 #' Döhler, S. (2010). Validation of credit default probabilities using

@@ -2,7 +2,7 @@ Package: DiscreteFWER
 Type: Package
 Title: FWER-Based Multiple Testing Procedures with Adaptation for Discrete Tests
 Version: 0.0.9
-Date: 2024-11-21
+Date: 2024-11-25
 Authors@R: c(
     person("Sebastian", "Döhler", role = c("aut", "ctb"),
            email = "sebastian.doehler@h-da.de",
@@ -11,11 +11,13 @@ Authors@R: c(
            email = "diso.fbmn@h-da.de",
            comment = c(ORCID = "0009-0001-6856-6938"))
   )
-Description: Implementations of adaptations of the Bonferroni, Holm, Hochberg
-    and Šidák multiple testing procedures for discrete tests as described in the
-    papers Döhler (2010) "Validation of credit default probabilities using
-    multiple-testing procedures" <doi:10.21314/JRMV.2010.062> and Zhu & Guo
-    (2019) "Family-Wise Error Rate Controlling Procedures for Discrete Data"
+Description: Implementations of several multiple testing procedures that control
+    the family-wise error rate (FWER) designed specifically for discrete tests.
+    Included are discrete adaptations of the Bonferroni, Holm, Hochberg and
+    Šidák procedures as described in the papers Döhler (2010) "Validation of
+    credit default probabilities using multiple-testing procedures"
+    <doi:10.21314/JRMV.2010.062> and Zhu & Guo (2019) "Family-Wise Error Rate
+    Controlling Procedures for Discrete Data" 
     <doi:10.1080/19466315.2019.1654912>. The main procedures of this package
     take as input the results of a test procedure from package 'DiscreteTests'
     or a set of observed p-values and their discrete support under their nulls.

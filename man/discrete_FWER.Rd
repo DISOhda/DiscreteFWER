@@ -80,22 +80,22 @@ critical values, to a set of p-values and their discrete support.
 Computing critical constants (\code{critical_values = TRUE}) requires considerably
 more execution time, especially if the number of unique supports is large.
 We recommend that users should only have them calculated when they need them,
-e.g. for illustrating the rejection area in a plot or other theoretical
+e.g. for illustrating the rejection set in a plot or other theoretical
 reasons. Setting (\code{critical_values = FALSE}) is sufficient for obtaining
 rejection decisions and adjusted \eqn{p}-values.
 
 Depending on the choices of \code{independence} and \code{single_step}, one of the
 following procedures, is applied:\tabular{lcc}{
     \tab single-step \tab stepwise \cr
-   independent \tab Šidák \tab Hochberg \cr
-   not independent \tab Bonferroni \tab Holm \cr
+   independent \tab Šidák \tab Hochberg (step-up) \cr
+   not independent \tab Bonferroni \tab Holm (step-down) \cr
 }
 
 
 Each procedure is available by its own shortcut function:\tabular{lcc}{
     \tab single-step \tab stepwise \cr
-   independent \tab \code{DSidak()} \tab \code{DHoch()} \cr
-   not independent \tab \code{DBonf()} \tab \code{DHolm()} \cr
+   independent \tab \code{DSidak()} \tab \code{DHochberg()} \cr
+   not independent \tab \code{DBonferroni()} \tab \code{DHolm()} \cr
 }
 }
 \examples{
@@ -108,43 +108,49 @@ Y2 <- N2 - X2
 df <- data.frame(X1, Y1, X2, Y2)
 df
 
-# Construction of the p-values and their supports with Fisher's exact test
+# Computation of p-values and their supports with Fisher's exact test
 library(DiscreteTests)  # for Fisher's exact test
 test_results <- fisher_test_pv(df)
 raw_pvalues <- test_results$get_pvalues()
 pCDFlist <- test_results$get_pvalue_supports()
 
-# Discrete Holm procedure without critical values; using test results object
+# d-Holm without critical values; using test results object
 DFWER_dep_sd_fast <- discrete_FWER(test_results)
 summary(DFWER_dep_sd_fast)
 
-# Discrete Holm procedure with critical values; using extracted p-values and supports
-DFWER_dep_sd_crit <- discrete_FWER(raw_pvalues, pCDFlist, critical_values = TRUE)
+# d-Holm with critical values; using extracted p-values and supports
+DFWER_dep_sd_crit <- discrete_FWER(raw_pvalues, pCDFlist, 
+                                   critical_values = TRUE)
 summary(DFWER_dep_sd_crit)
 
-# Discrete Bonferroni procedure without critical values; using extracted p-values and supports
-DFWER_dep_fast <- discrete_FWER(raw_pvalues, pCDFlist, single_step = TRUE)
+# d-Bonferroni without critical values; using test results object
+DFWER_dep_fast <- discrete_FWER(test_results, single_step = TRUE)
 summary(DFWER_dep_fast)
 
-# Discrete Bonferroni procedure with critical values; using test results object
-DFWER_dep_crit <- discrete_FWER(test_results, single_step = TRUE, critical_values = TRUE)
+# d-Bonferroni with critical values; using extracted p-values and supports
+DFWER_dep_crit <- discrete_FWER(raw_pvalues, pCDFlist, single_step = TRUE,
+                                critical_values = TRUE)
 summary(DFWER_dep_crit)
 
-# Discrete Hochberg procedure without critical values; using test results object
+# d-Hochberg without critical values; using test results object
 DFWER_ind_su_fast <- discrete_FWER(test_results, independence = TRUE)
 summary(DFWER_ind_su_fast)
 
-# Discrete Hochberg procedure with critical values; using extracted p-values and supports
-DFWER_ind_su_crit <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE,
+# d-Hochberg with critical values; using extracted p-values and supports
+DFWER_ind_su_crit <- discrete_FWER(raw_pvalues, pCDFlist, 
+                                   independence = TRUE,
                                    critical_values = TRUE)
 summary(DFWER_ind_su_crit)
 
-# Discrete Šidák procedure without critical values; using extracted p-values and supports
-DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE, single_step = TRUE)
+# d-Šidák without critical values; using extracted p-values and supports
+DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist,
+                                independence = TRUE,
+                                single_step = TRUE)
 summary(DFWER_ind_fast)
 
-# Discrete Šidák procedure with critical values; using test results object
-DFWER_ind_crit <- discrete_FWER(test_results, independence = TRUE, single_step = TRUE, 
+# d-Šidák with critical values; using test results object
+DFWER_ind_crit <- discrete_FWER(test_results, independence = TRUE,
+                                single_step = TRUE, 
                                 critical_values = TRUE)
 summary(DFWER_ind_crit)
 
@@ -159,6 +165,6 @@ Discrete Data. \emph{Statistics in Biopharmaceutical Research}, \emph{12}(1),
 117-128. \doi{10.1080/19466315.2019.1654912}
 }
 \seealso{
-\code{\link[=DiscreteFWER-package]{DiscreteFWER}}, \code{\link[=DBonf]{DBonf()}}, \code{\link[=DHolm]{DHolm()}},
-\code{\link[=DSidak]{DSidak()}}, \code{\link[=DHoch]{DHoch()}}
+\code{\link[=DiscreteFWER-package]{DiscreteFWER}}, \code{\link[=DBonferroni]{DBonferroni()}}, \code{\link[=DHolm]{DHolm()}},
+\code{\link[=DSidak]{DSidak()}}, \code{\link[=DHochberg]{DHochberg()}}
 }

@@ -24,23 +24,23 @@
 #' Depending on the choices of `independence` and `single_step`, one of the
 #' following procedures, is applied:
 #' 
-#' |                 | single-step | stepwise |
-#' |:----------------|:-----------:|:--------:|
-#' | independent     |    Šidák    | Hochberg |
-#' | not independent |  Bonferroni |   Holm   |
+#' |                 | single-step |      stepwise      |
+#' |:----------------|:-----------:|:------------------:|
+#' | independent     |    Šidák    | Hochberg (step-up) |
+#' | not independent |  Bonferroni |  Holm (step-down)  |
 #' 
 #' Each procedure is available by its own shortcut function:
 #' 
-#' |                 | single-step |  stepwise |
-#' |:----------------|:-----------:|:---------:|
-#' | independent     |  `DSidak()` | `DHoch()` |
-#' | not independent |  `DBonf()`  | `DHolm()` |
+#' |                 |    single-step   |    stepwise   |
+#' |:----------------|:----------------:|:-------------:|
+#' | independent     |     `DSidak()`   | `DHochberg()` |
+#' | not independent |  `DBonferroni()` |   `DHolm()`   |
 #' 
 #' @template return
 #' 
 #' @seealso
-#' [`DiscreteFWER`][DiscreteFWER-package], [`DBonf()`], [`DHolm()`],
-#' [`DSidak()`], [`DHoch()`]
+#' [`DiscreteFWER`][DiscreteFWER-package], [`DBonferroni()`], [`DHolm()`],
+#' [`DSidak()`], [`DHochberg()`]
 #' 
 #' @references
 #' Döhler, S. (2010). Validation of credit default probabilities using
@@ -53,37 +53,43 @@
 #' 
 #' @template example
 #' @examples 
-#' # Discrete Holm procedure without critical values; using test results object
+#' # d-Holm without critical values; using test results object
 #' DFWER_dep_sd_fast <- discrete_FWER(test_results)
 #' summary(DFWER_dep_sd_fast)
 #' 
-#' # Discrete Holm procedure with critical values; using extracted p-values and supports
-#' DFWER_dep_sd_crit <- discrete_FWER(raw_pvalues, pCDFlist, critical_values = TRUE)
+#' # d-Holm with critical values; using extracted p-values and supports
+#' DFWER_dep_sd_crit <- discrete_FWER(raw_pvalues, pCDFlist, 
+#'                                    critical_values = TRUE)
 #' summary(DFWER_dep_sd_crit)
 #' 
-#' # Discrete Bonferroni procedure without critical values; using extracted p-values and supports
-#' DFWER_dep_fast <- discrete_FWER(raw_pvalues, pCDFlist, single_step = TRUE)
+#' # d-Bonferroni without critical values; using test results object
+#' DFWER_dep_fast <- discrete_FWER(test_results, single_step = TRUE)
 #' summary(DFWER_dep_fast)
 #' 
-#' # Discrete Bonferroni procedure with critical values; using test results object
-#' DFWER_dep_crit <- discrete_FWER(test_results, single_step = TRUE, critical_values = TRUE)
+#' # d-Bonferroni with critical values; using extracted p-values and supports
+#' DFWER_dep_crit <- discrete_FWER(raw_pvalues, pCDFlist, single_step = TRUE,
+#'                                 critical_values = TRUE)
 #' summary(DFWER_dep_crit)
 #' 
-#' # Discrete Hochberg procedure without critical values; using test results object
+#' # d-Hochberg without critical values; using test results object
 #' DFWER_ind_su_fast <- discrete_FWER(test_results, independence = TRUE)
 #' summary(DFWER_ind_su_fast)
 #' 
-#' # Discrete Hochberg procedure with critical values; using extracted p-values and supports
-#' DFWER_ind_su_crit <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE,
+#' # d-Hochberg with critical values; using extracted p-values and supports
+#' DFWER_ind_su_crit <- discrete_FWER(raw_pvalues, pCDFlist, 
+#'                                    independence = TRUE,
 #'                                    critical_values = TRUE)
 #' summary(DFWER_ind_su_crit)
 #' 
-#' # Discrete Šidák procedure without critical values; using extracted p-values and supports
-#' DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist, independence = TRUE, single_step = TRUE)
+#' # d-Šidák without critical values; using extracted p-values and supports
+#' DFWER_ind_fast <- discrete_FWER(raw_pvalues, pCDFlist,
+#'                                 independence = TRUE,
+#'                                 single_step = TRUE)
 #' summary(DFWER_ind_fast)
 #' 
-#' # Discrete Šidák procedure with critical values; using test results object
-#' DFWER_ind_crit <- discrete_FWER(test_results, independence = TRUE, single_step = TRUE, 
+#' # d-Šidák with critical values; using test results object
+#' DFWER_ind_crit <- discrete_FWER(test_results, independence = TRUE,
+#'                                 single_step = TRUE, 
 #'                                 critical_values = TRUE)
 #' summary(DFWER_ind_crit)
 #' 

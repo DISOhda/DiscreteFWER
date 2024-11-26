@@ -8,7 +8,7 @@
 #' df <- data.frame(X1, Y1, X2, Y2)
 #' df
 #'
-#' # Construction of the p-values and their supports with Fisher's exact test
+#' # Computation of p-values and their supports with Fisher's exact test
 #' library(DiscreteTests)  # for Fisher's exact test
 #' test_results <- fisher_test_pv(df)
 #' raw_pvalues <- test_results$get_pvalues()

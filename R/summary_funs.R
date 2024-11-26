@@ -31,12 +31,13 @@
 #' 
 #' @template example
 #' @examples
-#' # Discrete Holm procedure without critical values; using test results object
+#' # d-Holm procedure without critical values; using test results object
 #' DFWER_dep_sd_fast <- discrete_FWER(test_results)
 #' summary(DFWER_dep_sd_fast)
 #' 
-#' # Discrete Bonferroni procedure with critical values; using test results object
-#' DFWER_dep_crit <- discrete_FWER(test_results, single_step = TRUE, critical_values = TRUE)
+#' # d-Bonferroni procedure with critical values; using test results object
+#' DFWER_dep_crit <- discrete_FWER(test_results, single_step = TRUE,
+#' critical_values = TRUE)
 #' summary(DFWER_dep_crit)
 #' 
 #' @rdname summary.DiscreteFWER
