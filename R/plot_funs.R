@@ -92,7 +92,7 @@ hist.DiscreteFWER <- function(
 #'
 #' @param x          object of class `DiscreteFWER`.
 #' @param col        numeric or character vector of length 3 indicating the
-#'                   colors of the \enumerate{
+#'                   colours of the \enumerate{
 #'                     \item rejected p-values
 #'                     \item accepted p-values
 #'                     \item critical values (if present).
@@ -151,13 +151,13 @@ plot.DiscreteFWER <- function(
   if(!("DiscreteFWER" %in% class(x)))
     stop("'x' must be an object of class DiscreteFWER")
   
-  # make sure 'col' includes integers or color strings
+  # make sure 'col' includes integers or colour strings
   assert(
     check_character(col, min.len = 1, max.len = 3, null.ok = TRUE),
     check_numeric(col, min.len = 1, max.len = 3, null.ok = TRUE)
   )
   
-  # make sure 'pch' includes integers or color strings
+  # make sure 'pch' includes integers or colour strings
   assert(
     check_character(col, min.len = 1, max.len = 3, null.ok = TRUE),
     check_numeric(col, upper = 25, min.len = 1, max.len = 3, null.ok = TRUE)

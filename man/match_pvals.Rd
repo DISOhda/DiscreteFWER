@@ -14,12 +14,12 @@ match_pvals(test_results, pCDFlist, pCDFlist_indices = NULL)
 \item{pCDFlist_indices}{list of numeric vectors containing the test indices that indicate to which raw \eqn{p}-value(s) each support in \code{pCDFlist} belongs; if \code{NULL} (the default) the lengths of \code{test_results} and \code{pCDFlist} \strong{must} be equal.}
 }
 \value{
-A vector where each raw p-value has been replaced by its nearest neighbor, if
-necessary.
+A vector where each raw p-value has been replaced by its nearest neighbour,
+if necessary.
 }
 \description{
 Constructs the observed p-values from the raw observed p-values, by rounding
-them to their nearest neighbor matching with the supports of their
+them to their nearest neighbour, matching with the supports of their
 respective CDFs (as in function \code{p.discrete.adjust()} of package
 \code{discreteMTP}, which is no longer available on CRAN).
 

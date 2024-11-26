@@ -7,7 +7,7 @@
 #' 
 #' @description 
 #' Constructs the observed p-values from the raw observed p-values, by rounding
-#' them to their nearest neighbor matching with the supports of their
+#' them to their nearest neighbour, matching with the supports of their
 #' respective CDFs (as in function `p.discrete.adjust()` of package
 #' `discreteMTP`, which is no longer available on CRAN).
 #' 
@@ -39,8 +39,8 @@
 #' }
 #'
 #' @return
-#' A vector where each raw p-value has been replaced by its nearest neighbor, if
-#' necessary.
+#' A vector where each raw p-value has been replaced by its nearest neighbour,
+#' if necessary.
 #'
 match_pvals <- function(test_results, pCDFlist, pCDFlist_indices = NULL) {
   m <- length(test_results)

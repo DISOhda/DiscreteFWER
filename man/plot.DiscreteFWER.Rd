@@ -19,7 +19,7 @@
 \item{x}{object of class \code{DiscreteFWER}.}
 
 \item{col}{numeric or character vector of length 3 indicating the
-colors of the \enumerate{
+colours of the \enumerate{
 \item rejected p-values
 \item accepted p-values
 \item critical values (if present).
