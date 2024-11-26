@@ -9,7 +9,6 @@
 #' Kernel Functions
 #' 
 #' @description
-#'
 #' Kernel functions that transform observed p-values or their support according
 #' to a discrete FWER approach. The outputs are used by [`discrete_FWER()`].
 #' `kernel_DFWER_fast`, computes the transformed \eqn{p}-values, while
@@ -57,32 +56,7 @@
 #' 
 #' @seealso
 #' [`discrete_FWER()`], [`direct_discrete_FWER()`]
-#' 
-#' @template example
-#' @examples
-#' alpha <- 0.05
-#' 
-#' # If not searching for critical constants, we only get the adjusted p-values
-#' sorted_pvals <- sort(raw_pvalues)
-#' y_dBonf_fast <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals)
-#' y_dSid_fast  <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals, TRUE)
-#' # Adjusted values
-#' y_dBonf_fast
-#' y_dSid_fast
-#' 
-#' # Compute transformed support
-#' support      <- unique(sort(unlist(pCDFlist)))
-#' y_dBonf_crit <- DiscreteFWER:::kernel_DFWER_stepwise_crit(pCDFlist, support, sorted_pvals,
-#'                                                           alpha)
-#' y_dSid_crit  <- DiscreteFWER:::kernel_DFWER_stepwise_crit(pCDFlist, support, sorted_pvals,
-#'                                                           alpha, TRUE)
-#' # critical constants
-#' y_dBonf_crit$crit_consts
-#' y_dSid_crit$crit_consts
-#' # Adjusted p-values
-#' y_dBonf_crit$pval_transf
-#' y_dSid_crit$pval_transf
-#' 
+#'
 NULL
 
 #' @rdname kernel

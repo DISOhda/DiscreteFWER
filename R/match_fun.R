@@ -30,14 +30,6 @@
 #' @templateVar pCDFlist_indices TRUE
 #' @template param
 #' 
-#' @examples \dontrun{
-#' toyList <- list(c(0.3,0.7,1),c(0.1,0.65,1))
-#' toyRaw1 <- c(0.3,0.65)
-#' match_pvals(toyRaw1, toyList)
-#' toyRaw2 <- c(0.31,0.6)
-#' match_pvals(toyRaw2, toyList)
-#' }
-#'
 #' @return
 #' A vector where each raw p-value has been replaced by its nearest neighbour,
 #' if necessary.

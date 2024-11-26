@@ -92,46 +92,6 @@ constants. The end user should not use these functions directly, as they are
 internal functions and parameters (including their names, order, etc.) may
 be changed without notice!
 }
-\examples{
-X1 <- c(4, 2, 2, 14, 6, 9, 4, 0, 1)
-X2 <- c(0, 0, 1, 3, 2, 1, 2, 2, 2)
-N1 <- rep(148, 9)
-N2 <- rep(132, 9)
-Y1 <- N1 - X1
-Y2 <- N2 - X2
-df <- data.frame(X1, Y1, X2, Y2)
-df
-
-# Computation of p-values and their supports with Fisher's exact test
-library(DiscreteTests)  # for Fisher's exact test
-test_results <- fisher_test_pv(df)
-raw_pvalues <- test_results$get_pvalues()
-pCDFlist <- test_results$get_pvalue_supports()
-
-alpha <- 0.05
-
-# If not searching for critical constants, we only get the adjusted p-values
-sorted_pvals <- sort(raw_pvalues)
-y_dBonf_fast <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals)
-y_dSid_fast  <- DiscreteFWER:::kernel_DFWER_singlestep_fast(pCDFlist, sorted_pvals, TRUE)
-# Adjusted values
-y_dBonf_fast
-y_dSid_fast
-
-# Compute transformed support
-support      <- unique(sort(unlist(pCDFlist)))
-y_dBonf_crit <- DiscreteFWER:::kernel_DFWER_stepwise_crit(pCDFlist, support, sorted_pvals,
-                                                          alpha)
-y_dSid_crit  <- DiscreteFWER:::kernel_DFWER_stepwise_crit(pCDFlist, support, sorted_pvals,
-                                                          alpha, TRUE)
-# critical constants
-y_dBonf_crit$crit_consts
-y_dSid_crit$crit_consts
-# Adjusted p-values
-y_dBonf_crit$pval_transf
-y_dSid_crit$pval_transf
-
-}
 \seealso{
 \code{\link[=discrete_FWER]{discrete_FWER()}}, \code{\link[=direct_discrete_FWER]{direct_discrete_FWER()}}
 }
